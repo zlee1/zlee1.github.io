@@ -32,6 +32,7 @@ dec_btn.addEventListener('click', () => {
 
 function clear_board(id){
   chosen = null;
+  guess.value = null;
   button.value = "Guess";
   tbl = document.getElementById(id);
   for(var i = 0; i < tbl.rows.length; i++){
@@ -147,12 +148,16 @@ button.addEventListener('click', () => {
     }
     set_colors(get_info(guess.value), cur_row);
 
-    if(cur_row == tbl.rows.length-1){
+    if(cur_row == tbl.rows.length-1 || guess.value == chosen){
       button.value = "Restart";
+      guess.value = chosen.toUpperCase();
+    }
+    else{
+      guess.value = null;
     }
 
   }
-  guess.value = null;
+
 });
 
 function addColumn(tblId)
