@@ -3,6 +3,10 @@
   <head>
     <title>Wordle-N</title>
     <style>
+      body{
+        font-family: Courier New;
+        font-weight: 550;
+      }
       table {
         text-align: center;
         font-size: 35pt;
@@ -25,9 +29,14 @@
         overflow: hidden;
       }
       input {
+        font-family: Courier New;
+        font-weight: 550;
         border-radius: 15px;
         margin-bottom: 2px;
         text-align: center;
+      }
+      h1{
+        margin:10px;
       }
     </style>
   </head>
@@ -35,6 +44,7 @@
   <body>
     <center>
       <h1>Wordle-N</h1>
+
       <label>Length of Words</label>
       <br>
       <input type="button" value="-" id="dec_btn" style="margin-top:5px;width:30px;border-radius:15px;">
@@ -103,6 +113,8 @@
         <br>
         <input type="button" value="Guess" id="guess_btn">-->
         <label id="answer"></label>
+        <br>
+        <input type="button" value="Info" id="info_btn" onclick="window.location.href='info.html';">
       </div>
     </center>
 
