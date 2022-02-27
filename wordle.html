@@ -24,28 +24,22 @@
         border-radius: 20px;
         overflow: hidden;
       }
+      input {
+        border-radius: 15px;
+        margin-bottom: 2px;
+      }
     </style>
   </head>
 
   <body>
     <center>
       <h1>Wordle-N</h1>
-      <p>
-        This game is like the popular <a href="https://www.nytimes.com/games/wordle/index.html">Wordle</a> game, but with a twist.
-        <br>
-        This iteration of Wordle allows for different word sizes. The original Wordle can only have words that are 5 letters long, but this one can have words with lengths anywhere from 2 to 15 letters long!
-      </p>
-    </center>
-    <center>
       <label>Length of Words</label>
       <br>
-      <input type="button" value="-" id="dec_btn" style="margin:10px;">
-      <label id="length_lbl" style="margin-top:10px;margin-bottom:10px;"> 5 </label>
-      <input type="button" value="+" id="inc_btn" style="margin:10px;">
-      <br>
-      <!--<input type="range" min="3" max="10" value="5" class="slider" id="length_sld">-->
+      <input type="button" value="-" id="dec_btn" style="margin-top:5px;width:30px;border-radius:15px;">
+      <label id="length_lbl" style="margin-top:5px;"> 5 </label>
+      <input type="button" value="+" id="inc_btn" style="margin-top:5px;width:30px;border-radius:15px;">
     </center>
-    <br>
     <table id="game_tbl">
       <tbody>
         <tr>
@@ -68,12 +62,46 @@
         </tr>
       </tbody>
     </table>
-
+    <center>
+      <br>
+      <input type="button" id="Q" value="Q" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="W" value="W" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="E" value="E" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="R" value="R" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="T" value="T" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="Y" value="Y" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="U" value="U" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="I" value="I" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="O" value="O" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="P" value="P" style="width:30px;border-radius:15px;background-color:white;">
+      <br>
+      <input type="button" id="A" value="A" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="S" value="S" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="D" value="D" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="F" value="F" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="G" value="G" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="H" value="H" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="J" value="J" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="K" value="K" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="L" value="L" style="width:30px;border-radius:15px;background-color:white;">
+      <br>
+      <input type="button" id="guess_btn" value="Guess" style="width:75px;background-color:white;">
+      <input type="button" id="Z" value="Z" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="X" value="X" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="C" value="C" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="V" value="V" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="B" value="B" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="N" value="N" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="M" value="M" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="back_btn" value="Delete" style="width:75px;background-color:white;">
+      <!--<input type="range" min="3" max="10" value="5" class="slider" id="length_sld">-->
+    </center>
     <center>
       <div id="inputs">
-        <input type="text" placeholder="Enter Guess" id="guess_txt" style="text-align:center;margin:10px;">
+        <!--<input type="text" placeholder="Enter Guess" id="guess_txt" style="text-align:center;margin:10px;">
         <br>
-        <input type="button" value="Guess" id="guess_btn">
+        <input type="button" value="Guess" id="guess_btn">-->
+        <label id="answer"></label>
       </div>
     </center>
 
