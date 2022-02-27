@@ -18,8 +18,11 @@ function handleButton(id){
 
   for(var j = 0; j < tbl.rows[cur_row].cells.length; j++){
     if(tbl.rows[cur_row].cells[j].innerHTML == ""){
-      tbl.rows[cur_row].cells[j].innerHTML = id;
+      if(document.getElementById("guess_btn").value != "Restart"){
+        tbl.rows[cur_row].cells[j].innerHTML = id;
+      }
       return null;
+
     }
   }
 }
