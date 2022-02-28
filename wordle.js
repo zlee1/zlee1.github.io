@@ -128,7 +128,6 @@ function get_info(guess){
     if(guess[i] == chosen[i]){
       colors[i] = "green";
       used_letters.push(guess[i]);
-      document.getElementById(guess[i].toUpperCase()).style.backgroundColor = "#BDF182";
     }
   }
 
@@ -158,10 +157,11 @@ function get_info(guess){
   }
 
   for(var i = 0; i < colors.length; i++){
-    if(colors[i] == "yellow" && document.getElementById(guess[i].toUpperCase()).style.backgroundColor != "#BDF182"){
+    if(colors[i] == "green"){
+      document.getElementById(guess[i].toUpperCase()).style.backgroundColor = "#BDF182";
+    }else if(colors[i] == "yellow" && document.getElementById(guess[i].toUpperCase()).style.backgroundColor != 'rgb(189, 241, 130)'){
       document.getElementById(guess[i].toUpperCase()).style.backgroundColor = "#FFF585";
-    }
-    if(colors[i] == "gray"){
+    }else if(colors[i] == "gray" && !['rgb(189, 241, 130)', 'rgb(255, 245, 133)'].includes(document.getElementById(guess[i].toUpperCase()).style.backgroundColor)){
       document.getElementById(guess[i].toUpperCase()).style.backgroundColor = "#DDDDDD";
     }
   }
