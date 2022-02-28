@@ -10,10 +10,10 @@
       }
       table {
         text-align: center;
-        font-size: 30pt;
+        font-size: 1.25vw;
         font-family: Courier New;
         font-weight:600;
-        border-spacing: 5px;
+        border-spacing: .25vw;
         margin-left: auto;
         margin-right: auto;
       }
@@ -24,32 +24,32 @@
       }
       td {
         border: 2px solid black;
-        width: 50px;
-        height: 50px;
-        border-radius: 15px;
+        width: 3vw;
+        height: 3vw;
+        border-radius: .5vw;
         overflow: hidden;
       }
       input {
         font-family: Courier New;
         font-weight: 550;
-        font-size: 20pt;
-        border-radius: 15px;
+        font-size: 1.25vw;
+        border-radius: .5vw;
         margin: 2px;
-        margin-right:0px;
-        margin-left:0px;
+        margin-right:-1px;
+        margin-left:-1px;
         text-align: center;
         border: 2px solid black;
-        width:60px;
-        height:60px;
+        width:4vw;
+        height:4vw;
         background-color:white;
         color:black;
       }
       h1{
         margin:10px;
-        font-size:30pt;
+        font-size:2.5vw;
       }
       label{
-        font-size:24pt;
+        font-size:1.5vw;
       }
     </style>
   </head>
@@ -60,9 +60,9 @@
 
       <!--<label>Length of Words</label>
       <br>-->
-      <input type="button" value="-" id="dec_btn" style="height:30px;width:30px;margin-top:0px;border-radius:5px;text-align:center;">
+      <input type="button" value="-" id="dec_btn" style="width:calc(2vw);height:calc(2vw);margin-top:0px;border-radius:0vw;text-align:center;">
       <label id="length_lbl" style="margin-top:0px;">5</label>
-      <input type="button" value="+" id="inc_btn" style="height:30px;width:30px;margin-top:0px;border-radius:5px;text-align:center;">
+      <input type="button" value="+" id="inc_btn" style="width:calc(2vw);height:calc(2vw);margin-top:0px;border-radius:0vw;text-align:center;">
     </center>
     <table id="game_tbl">
       <tbody>
@@ -111,7 +111,7 @@
           <input type="button" id="K" value="K">
           <input type="button" id="L" value="L">
           <br>
-          <input type="button" id="guess_btn" value="Guess" style="width:150px;">
+          <input type="button" id="guess_btn" value="Guess" style="width:10vw;">
           <input type="button" id="Z" value="Z">
           <input type="button" id="X" value="X">
           <input type="button" id="C" value="C">
@@ -119,7 +119,7 @@
           <input type="button" id="B" value="B">
           <input type="button" id="N" value="N">
           <input type="button" id="M" value="M">
-          <input type="button" id="back_btn" value="Delete" style="width:150px;">
+          <input type="button" id="back_btn" value="Delete" style="width:10vw;">
           <!--<input type="range" min="3" max="10" value="5" class="slider" id="length_sld">-->
           <div id="inputs">
             <!--<input type="text" placeholder="Enter Guess" id="guess_txt" style="text-align:center;margin:10px;">
