@@ -242,7 +242,7 @@ button.addEventListener('click', () => {
 
     if(cur_row == tbl.rows.length-1 || user_guess == chosen){
       button.value = "Restart";
-      document.getElementById("answer").innerHTML = chosen.toUpperCase();
+      document.getElementById("answer").innerHTML = "Answer: " + chosen.toUpperCase();
     }
     else{
       user_guess = null;
