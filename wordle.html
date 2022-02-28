@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Wordle-N</title>
+    <link rel = "icon" href = "icon.png" type = "image/x-icon">
     <style>
       body{
         font-family: Courier New;
@@ -31,12 +32,21 @@
       input {
         font-family: Courier New;
         font-weight: 550;
+        font-size: 20pt;
         border-radius: 15px;
         margin-bottom: 2px;
         text-align: center;
+        border: 2px solid black;
+        width:40px;
+        height:40px;
+        background-color:white;
       }
       h1{
         margin:10px;
+        font-size:40pt;
+      }
+      label{
+        font-size:24pt;
       }
     </style>
   </head>
@@ -45,11 +55,11 @@
     <center>
       <h1>Wordle-N</h1>
 
-      <label>Length of Words</label>
-      <br>
-      <input type="button" value="-" id="dec_btn" style="margin-top:5px;width:30px;border-radius:15px;">
+      <!--<label>Length of Words</label>
+      <br>-->
+      <input type="button" value="-" id="dec_btn" style="margin-top:5px;width:40px;height:40px;border-radius:15px;">
       <label id="length_lbl" style="margin-top:5px;"> 5 </label>
-      <input type="button" value="+" id="inc_btn" style="margin-top:5px;width:30px;border-radius:15px;">
+      <input type="button" value="+" id="inc_btn" style="margin-top:5px;width:40px;height:40px;border-radius:15px;">
     </center>
     <table id="game_tbl">
       <tbody>
@@ -75,36 +85,36 @@
     </table>
     <center>
       <br>
-      <input type="button" id="Q" value="Q" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="W" value="W" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="E" value="E" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="R" value="R" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="T" value="T" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="Y" value="Y" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="U" value="U" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="I" value="I" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="O" value="O" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="P" value="P" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="Q" value="Q">
+      <input type="button" id="W" value="W">
+      <input type="button" id="E" value="E">
+      <input type="button" id="R" value="R">
+      <input type="button" id="T" value="T">
+      <input type="button" id="Y" value="Y">
+      <input type="button" id="U" value="U">
+      <input type="button" id="I" value="I">
+      <input type="button" id="O" value="O">
+      <input type="button" id="P" value="P">
       <br>
-      <input type="button" id="A" value="A" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="S" value="S" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="D" value="D" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="F" value="F" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="G" value="G" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="H" value="H" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="J" value="J" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="K" value="K" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="L" value="L" style="width:30px;border-radius:15px;background-color:white;">
+      <input type="button" id="A" value="A">
+      <input type="button" id="S" value="S">
+      <input type="button" id="D" value="D">
+      <input type="button" id="F" value="F">
+      <input type="button" id="G" value="G">
+      <input type="button" id="H" value="H">
+      <input type="button" id="J" value="J">
+      <input type="button" id="K" value="K">
+      <input type="button" id="L" value="L">
       <br>
-      <input type="button" id="guess_btn" value="Guess" style="width:100px;background-color:white;">
-      <input type="button" id="Z" value="Z" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="X" value="X" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="C" value="C" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="V" value="V" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="B" value="B" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="N" value="N" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="M" value="M" style="width:30px;border-radius:15px;background-color:white;">
-      <input type="button" id="back_btn" value="Delete" style="width:100px;background-color:white;">
+      <input type="button" id="guess_btn" value="Guess" style="width:200px;">
+      <input type="button" id="Z" value="Z">
+      <input type="button" id="X" value="X">
+      <input type="button" id="C" value="C">
+      <input type="button" id="V" value="V">
+      <input type="button" id="B" value="B">
+      <input type="button" id="N" value="N">
+      <input type="button" id="M" value="M">
+      <input type="button" id="back_btn" value="Delete" style="width:200px;">
       <!--<input type="range" min="3" max="10" value="5" class="slider" id="length_sld">-->
     </center>
     <center>
@@ -114,7 +124,7 @@
         <input type="button" value="Guess" id="guess_btn">-->
         <label id="answer"></label>
         <br>
-        <input type="button" value="Info" id="info_btn" onclick="window.location.href='info.html';">
+        <input type="button" value="Info" id="info_btn" style="width:200px;" onclick="window.location.href='info.html';">
       </div>
     </center>
 
