@@ -13,13 +13,13 @@ if(screen.width < screen.height){
     'table {text-align: center;font-size: 3vw;font-family: Courier New;font-weight:600;border-spacing: 1vw;margin-left: auto;margin-right: auto;} ' +
     'tr {border: 2px solid black;overflow: hidden;} ' +
     'td {border: 2px solid black;width: 5vw;height: 5vw;border-radius: .75vw;overflow: hidden;} ' +
-    'input {font-family: Courier New;font-weight: 550;font-size: 3vw;border-radius: .75vw;margin: 2px;margin-right:-1px;margin-left:-1px;text-align: center;border: 2px solid black;width:8vw;height:8vw;background-color:white;color:black;} ' +
+    'input {font-family: Courier New;font-weight: 550;font-size: 3vw;border-radius: .75vw;margin: 2px;margin-right:-1px;margin-left:-1px;text-align: center;border: 2px solid black;width:8vw;height:14vw;background-color:white;color:black;} ' +
     'h1 {margin:10px;font-size:5vw;} ' +
     'label {font-size:4vw;} ';
   document.getElementById("inc_btn").style = "width:4vw;height:4vw;";
   document.getElementById("dec_btn").style = "width:4vw;height:4vw;";
-  document.getElementById("guess_btn").style = "width:14vw;";
-  document.getElementById("back_btn").style = "width:14vw;";
+  document.getElementById("guess_btn").style = "width:15vw;text-align:center;";
+  document.getElementById("back_btn").style = "width:15vw;text-align:center;";
   //console.log(document.getElementsByTagName("style")[0].innerHTML);
 }
 
