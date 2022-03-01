@@ -18,6 +18,8 @@ if(screen.width < screen.height){
     'label {font-size:4vw;} ';
   document.getElementById("inc_btn").style = "width:4vw;height:4vw;";
   document.getElementById("dec_btn").style = "width:4vw;height:4vw;";
+  document.getElementById("inc_guess_btn").style = "width:4vw;height:4vw;";
+  document.getElementById("dec_guess_btn").style = "width:4vw;height:4vw;";
   document.getElementById("guess_btn").style = "width:15vw;text-align:center;";
   document.getElementById("back_btn").style = "width:15vw;text-align:center;";
   //console.log(document.getElementsByTagName("style")[0].innerHTML);
@@ -65,6 +67,18 @@ fetch(url)
 for(var i = tbl.rows[0].cells.length; i < parseInt(output.innerHTML); i++){
   addColumn("game_tbl");
 }
+
+document.getElementById("inc_guess_btn").addEventListener('click', () => {
+  addRow("game_tbl");
+  document.getElementById("guess_num_lbl").innerHTML = tbl.rows.length;
+  clear_board("game_tbl");
+});
+
+document.getElementById("dec_guess_btn").addEventListener('click', () => {
+  removeRow("game_tbl");
+  document.getElementById("guess_num_lbl").innerHTML = tbl.rows.length;
+  clear_board("game_tbl");
+});
 
 inc_btn.addEventListener('click', () => {
   if(dec_btn.disabled == true){
@@ -286,6 +300,21 @@ function deleteColumn(tblId)
     if (allRows[i].cells.length > 1) {
       allRows[i].deleteCell(-1);
     }
+  }
+}
+
+function addRow(tblId){
+  var tblHeadObj = document.getElementById(tblId);
+  var row = tblHeadObj.insertRow();
+  for(var i = 0; i < tblHeadObj.rows[0].cells.length; i++){
+    row.insertCell();
+  }
+}
+
+function removeRow(tblId){
+  var tblHeadObj = document.getElementById(tblId);
+  if(tblHeadObj.rows.length > 1){
+    var row = tblHeadObj.deleteRow(tblHeadObj.rows.length-1);
   }
 }
 
