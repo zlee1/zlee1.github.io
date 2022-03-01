@@ -25,8 +25,8 @@ if(screen.width < screen.height){
   //document.getElementById("dec_btn").style = "width:4vw;height:4vw;";
   //document.getElementById("inc_guess_btn").style = "width:4vw;height:4vw;";
   //document.getElementById("dec_guess_btn").style = "width:4vw;height:4vw;";
-  document.getElementById("length_lbl").style = "width:12vw;height:4vw;";
-  document.getElementById("guess_num_lbl").style = "width:12vw;height:4vw;";
+  document.getElementById("length_lbl").style = "width:12vw;height:3vw;";
+  document.getElementById("guess_num_lbl").style = "width:12vw;height:3vw;";
 
   document.getElementById("guess_btn").style = "width:15vw;text-align:center;";
   document.getElementById("back_btn").style = "width:15vw;text-align:center;";
