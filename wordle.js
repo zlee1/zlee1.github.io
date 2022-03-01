@@ -1,5 +1,5 @@
-var inc_btn = document.getElementById("inc_btn");
-var dec_btn = document.getElementById("dec_btn");
+//var inc_btn = document.getElementById("inc_btn");
+//var dec_btn = document.getElementById("dec_btn");
 var output = document.getElementById("length_lbl");
 var tbl = document.getElementById("game_tbl");
 var chosen = null;
@@ -8,8 +8,11 @@ var ctrl_down = 0;
 var wait_one = 0;
 var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
+for(var i = 1; i < output.value; i++){
+  addColumn("game_tbl");
+}
+
 if(screen.width < screen.height){
-  //console.log(document.getElementsByTagName("style")[0].innerHTML);
 
   document.getElementsByTagName("style")[0].innerHTML = 'body {font-family: Courier New;font-weight: 550;} ' +
     'table {text-align: center;font-size: 3vw;font-family: Courier New;font-weight:600;border-spacing: 1vw;margin-left: auto;margin-right: auto;} ' +
@@ -18,13 +21,16 @@ if(screen.width < screen.height){
     'input {font-family: Courier New;font-weight: 550;font-size: 3vw;border-radius: .75vw;margin: 2px;margin-right:-1px;margin-left:-1px;text-align: center;border: 2px solid black;width:8vw;height:14vw;background-color:white;color:black;} ' +
     'h1 {margin:10px;font-size:5vw;} ' +
     'label {font-size:4vw;} ';
-  document.getElementById("inc_btn").style = "width:4vw;height:4vw;";
-  document.getElementById("dec_btn").style = "width:4vw;height:4vw;";
-  document.getElementById("inc_guess_btn").style = "width:4vw;height:4vw;";
-  document.getElementById("dec_guess_btn").style = "width:4vw;height:4vw;";
+  //document.getElementById("inc_btn").style = "width:4vw;height:4vw;";
+  //document.getElementById("dec_btn").style = "width:4vw;height:4vw;";
+  //document.getElementById("inc_guess_btn").style = "width:4vw;height:4vw;";
+  //document.getElementById("dec_guess_btn").style = "width:4vw;height:4vw;";
+  document.getElementById("length_lbl").style = "width:12vw;height:4vw;";
+  document.getElementById("guess_num_lbl").style = "width:12vw;height:4vw;";
+
   document.getElementById("guess_btn").style = "width:15vw;text-align:center;";
   document.getElementById("back_btn").style = "width:15vw;text-align:center;";
-  //console.log(document.getElementsByTagName("style")[0].innerHTML);
+
 }
 
 function handleButton(id){
@@ -84,10 +90,45 @@ fetch(url)
         words = JSON.parse(text);
     });
 
-for(var i = tbl.rows[0].cells.length; i < parseInt(output.innerHTML); i++){
-  addColumn("game_tbl");
+document.getElementById("length_lbl").onchange = function(e) {
+  clear_board("game_tbl");
+  if(document.getElementById("length_lbl").value > 22){
+    document.getElementById("length_lbl").value = 22;
+  }else if(document.getElementById("length_lbl").value < 2){
+    document.getElementById("length_lbl").value = 2;
+  }else{
+    if(tbl.rows[0].cells.length < document.getElementById("length_lbl").value){
+      for(var i = tbl.rows[0].cells.length; i < document.getElementById("length_lbl").value; i++){
+        addColumn("game_tbl");
+      }
+    }else if(tbl.rows[0].cells.length > document.getElementById("length_lbl").value){
+      for(var i = tbl.rows[0].cells.length; i > document.getElementById("length_lbl").value; i--){
+        deleteColumn("game_tbl");
+      }
+    }
+  }
 }
 
+document.getElementById("guess_num_lbl").onchange = function(e) {
+  clear_board("game_tbl");
+  if(document.getElementById("guess_num_lbl").value > 999){
+    document.getElementById("guess_num_lbl").value = 999;
+  }else if(document.getElementById("guess_num_lbl").value < 1){
+    document.getElementById("guess_num_lbl").value = 1;
+  }else{
+    if(tbl.rows.length < document.getElementById("guess_num_lbl").value){
+      for(var i = tbl.rows.length; i < document.getElementById("guess_num_lbl").value; i++){
+        addRow("game_tbl");
+      }
+    }else if(tbl.rows.length > document.getElementById("guess_num_lbl").value){
+      for(var i = tbl.rows.length; i > document.getElementById("guess_num_lbl").value; i--){
+        removeRow("game_tbl");
+      }
+    }
+  }
+}
+
+/**
 document.getElementById("inc_guess_btn").addEventListener('click', () => {
   addRow("game_tbl");
   document.getElementById("guess_num_lbl").innerHTML = tbl.rows.length;
@@ -132,7 +173,7 @@ dec_btn.addEventListener('click', () => {
   if(val == 2){
     dec_btn.disabled = true;
   }
-});
+});**/
 
 function clear_board(id){
   document.getElementById("answer").innerHTML = null;
