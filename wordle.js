@@ -71,14 +71,14 @@ inc_btn.addEventListener('click', () => {
     dec_btn.disabled = false;
   }
   val = parseInt(output.innerHTML);
-  if(val < 15){
+  if(val < 22){
     output.innerHTML = val+1;
     for(var i = tbl.rows[0].cells.length; i < val+1; i++){
       addColumn("game_tbl");
     }
   }
   clear_board("game_tbl");
-  if(val == 15){
+  if(val == 22){
     inc_btn.disabled = true;
   }
 });
