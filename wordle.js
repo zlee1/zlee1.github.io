@@ -4,6 +4,7 @@ var output = document.getElementById("length_lbl");
 var tbl = document.getElementById("game_tbl");
 var chosen = null;
 var words = null;
+var ctrl_down = 0;
 var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
 if(screen.width < screen.height){
@@ -49,10 +50,25 @@ function handleButton(id){
 document.onkeyup = function(e) {
   if(e.code == "Enter"){
     button.click();
-  }else if(e.keyCode >= 65 && e.keyCode <= 90){
+  }else if(e.keyCode >= 65 && e.keyCode <= 90 && ctrl_down != 1){
     document.getElementById(e.code.toString().charAt(3)).click();
   }else if(e.code == "Backspace"){
     document.getElementById("back_btn").click();
+  }else if(e.key == "Control"){
+    ctrl_down = 0;
+  }
+}
+
+document.onkeydown = function(e) {
+  if(e.key == "Control"){
+    ctrl_down = 1;
+  }else if(e.keyCode == 86 && ctrl_down == 1){
+    navigator.clipboard.readText().then((copiedText) => {
+      for(var i = 0; i < copiedText.length; i++){
+        document.getElementById(copiedText[i].toUpperCase()).click();
+      }
+    });
+    ctrl_down = 0;
   }
 }
 
