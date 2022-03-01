@@ -5,6 +5,7 @@ var tbl = document.getElementById("game_tbl");
 var chosen = null;
 var words = null;
 var ctrl_down = 0;
+var wait_one = 0;
 var alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
 if(screen.width < screen.height){
@@ -48,7 +49,9 @@ function handleButton(id){
 }
 
 document.onkeyup = function(e) {
-  if(e.code == "Enter"){
+  if(wait_one == 1){
+    wait_one = 0;
+  }else if(e.code == "Enter"){
     button.click();
   }else if(e.keyCode >= 65 && e.keyCode <= 90 && ctrl_down != 1){
     document.getElementById(e.code.toString().charAt(3)).click();
@@ -69,6 +72,7 @@ document.onkeydown = function(e) {
       }
     });
     ctrl_down = 0;
+    wait_one = 1;
   }
 }
 
