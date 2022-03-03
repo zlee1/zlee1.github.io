@@ -8,15 +8,16 @@ fetch(service_genres_counted_url)
         console.log(genres);
     });
 
-function get_service_genres(service){
-  console.log(genres);
-  for(var i = 0; i < genres.service.length; i++){
-    if(genres.service[i] == service){
-      console.log(genres.genre[i] + ": " + genres.percentage_of_total[i]);
+function get_by_service(service, key, set){
+  var r = {};
+  for(var i = 0; i < set.service.length; i++){
+    if(set.service[i] == service){
+      r[set[key][i]] = set.count[i];
     }
   }
+  return r;
 }
 
 document.getElementById("get_genres").addEventListener('click', () =>{
-  get_service_genres("hbo");
+  console.log(get_by_service("hbo", "genre", genres));
 });
