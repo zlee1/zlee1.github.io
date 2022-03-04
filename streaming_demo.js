@@ -18,6 +18,18 @@ function get_by_service(service, key, set){
   return r;
 }
 
-document.getElementById("get_genres").addEventListener('click', () =>{
+function get_unique(set, key){
+  var unique = [];
+  for(var i = 0; i < set[key].length; i++){
+    if(!unique.includes(set[key][i])){
+      unique.push(set[key][i]);
+    }
+  }
+  return unique;
+}
+
+document.getElementById("start").addEventListener('click', () =>{
   console.log(get_by_service("hbo", "genre", genres));
+  document.getElementById("inputs").innerHTML = "";
+  console.log(get_unique(genres, "genre"));
 });
