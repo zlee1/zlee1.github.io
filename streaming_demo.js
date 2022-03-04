@@ -1,4 +1,6 @@
 var genres = null;
+var data = [];
+var genre_scores = {};
 service_genres_counted_url = "https://raw.githubusercontent.com/zlee1/StreamingServiceAnalysis/master/data/modified/service_genres_counted.txt"
 
 fetch(service_genres_counted_url)
@@ -52,14 +54,14 @@ function add_genre_inputs(){
     td.innerHTML = unique_genres[i];
 
     selector = document.createElement("select");
-    selector.id = unique_genres[i] + "_sel";
+    selector.id = unique_genres[i];
     option_0 = document.createElement("option");
     option_0.innerHTML = "Love";
-    option_0.value = 2;
+    option_0.value = 3;
     selector.appendChild(option_0);
     option_1 = document.createElement("option");
     option_1.innerHTML = "Like";
-    option_1.value = 1;
+    option_1.value = 2;
     selector.appendChild(option_1);
     option_2 = document.createElement("option");
     option_2.innerHTML = "Neutral";
@@ -75,12 +77,59 @@ function add_genre_inputs(){
     selector.appendChild(option_4);
     selector.value = 0;
     selector.onchange = function(e){
-      console.log(this.value);
+      selector_changed(this.id, this.value, genres, "genre", genre_scores);
     }
-    //selector.appendChild(document.createElement(""))
+    genre_scores[unique_genres[i]] = selector.value;
     td2.appendChild(selector);
+
     document.getElementById("input_tbl").appendChild(tr);
   }
+  x_values = [];
+
+  y_values = get_unique(genres, "service").sort();
+
+  for(var i = 0; i < y_values.length; i++){
+    x_values.push(rate_services(genres, "genre", genre_scores)[y_values[i]]);
+  }
+
+  data = [{
+    x: x_values,
+    y: y_values,
+    type: "bar",
+    orientation: "h"  }];
+  layout = {title: "Streaming Service Leaderboard", showlegend: false,
+    xaxis: {title:"Some Title", showticklabels: false}};
+
+  Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
+}
+
+function rate_services(set, key, user_scores){
+  unique_services = get_unique(set, "service").sort();
+  var service_scores = {};
+  for(var i = 0; i < unique_services.length; i++){
+    service_scores[unique_services[i]] = 0;
+  }
+
+  for(var i = 0; i < set[key].length; i++){
+    service_scores[set["service"][i]] += set["percentage_of_total"][i]*user_scores[set[key][i]]*set["mean_score"][i];
+  }
+  return service_scores;
+}
+
+function selector_changed(id, new_value, set, key, set_scores){
+  set_scores[id] = new_value;
+  rate_services(set, key, set_scores);
+
+  x_values = [];
+  y_values = get_unique(set, "service").sort();
+
+  for(var i = 0; i < y_values.length; i++){
+    x_values.push(rate_services(set, key, set_scores)[y_values[i]]);
+  }
+  data[0]["x"] = x_values;
+  data[0]["y"] = y_values;
+
+  Plotly.redraw("myPlot");
 }
 
 document.getElementById("next").addEventListener('click', () =>{
