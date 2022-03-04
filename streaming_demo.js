@@ -88,17 +88,21 @@ function add_genre_inputs(){
 
   y_values = get_unique(genres, "service").sort();
 
+  var colors = [];
+
   for(var i = 0; i < y_values.length; i++){
+    colors.push("rgba(0,0,0,1)");
     x_values.push(rate_services(genres, "genre", genre_scores)[y_values[i]]);
   }
 
   data = [{
     x: x_values,
     y: y_values,
+    marker: { color: colors},
     type: "bar",
     orientation: "h"  }];
   layout = {title: "Streaming Service Leaderboard", showlegend: false,
-    xaxis: {title:"Some Title", showticklabels: false}};
+    xaxis: {title:"Service Score", showticklabels: false}};
 
   Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
 }
@@ -119,13 +123,21 @@ function rate_services(set, key, user_scores){
 function selector_changed(id, new_value, set, key, set_scores){
   set_scores[id] = new_value;
   rate_services(set, key, set_scores);
-
+  var highest_index = 0;
   x_values = [];
   y_values = get_unique(set, "service").sort();
 
   for(var i = 0; i < y_values.length; i++){
     x_values.push(rate_services(set, key, set_scores)[y_values[i]]);
+    if(x_values[i] > x_values[highest_index]){
+      data[0]["marker"]["color"][highest_index] = "rgba(0,0,0,1)";
+      highest_index = i;
+      data[0]["marker"]["color"][highest_index] = "rgba(255, 236, 135, 1)";
+    }else{
+      data[0]["marker"]["color"][i] = "rgba(0,0,0,1)";
+    }
   }
+
   data[0]["x"] = x_values;
   data[0]["y"] = y_values;
 
