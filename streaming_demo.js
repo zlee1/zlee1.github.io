@@ -115,9 +115,45 @@ function add_genre_inputs(){
     type: "bar",
     orientation: "h"  }];
   layout = {title: "Streaming Service Leaderboard", showlegend: false,
-    xaxis: {title:"Service Score", showticklabels: false}};
+    xaxis: {title:"Service Score", /**showticklabels: false,**/ rangemode: "tozero"}};
 
   Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
+}
+
+function normalize(values){
+
+  max = values[0];
+  min = values[0];
+  sum = 0;
+  for(var i = 0; i < values.length; i++){
+    sum += values[i];
+    if(values[i] > max){
+      max = values[i];
+    }
+
+    if(values[i] < min){
+      min = values[i];
+    }
+  }
+  avg = sum/values.length;
+
+  for(var i = 0; i < values.length; i++){
+    values[i] = (values[i]-min)/(avg);
+  }
+  return values;
+}
+
+function sigmoid(values){
+  sum = 0;
+  for(var i = 0; i < values.length; i++){
+    sum += values[i];
+  }
+  avg = sum/values.length;
+
+  for(var i = 0; i < values.length; i++){
+    values[i] = 1/(1+Math.exp(-1*.5*((values[i])-avg/2)));
+  }
+  return values;
 }
 
 function rate_services(set, key, user_scores){
@@ -146,7 +182,7 @@ function update_plot(set, key, set_scores){
 
   for(var i = 0; i < y_values.length; i++){
     x_values.push(rate_services(set, key, set_scores)[y_values[i]]);
-    if(x_values[i] > x_values[highest_index]){
+    if(x_values[i] > x_values[highest_index] || i == highest_index){
       data[0]["marker"]["color"][highest_index] = "rgba(0,0,0,1)";
       highest_index = i;
       data[0]["marker"]["color"][highest_index] = "rgba(255, 236, 135, 1)";
@@ -154,6 +190,9 @@ function update_plot(set, key, set_scores){
       data[0]["marker"]["color"][i] = "rgba(0,0,0,1)";
     }
   }
+
+  //x_values = normalize(x_values);
+  x_values = sigmoid(x_values);
 
   data[0]["x"] = x_values;
   data[0]["y"] = y_values;
