@@ -38,7 +38,7 @@ function add_genre_inputs(){
   clear_inputs();
   unique_genres = get_unique(genres, "genre").sort();
   document.getElementById("sect_head").innerHTML = "Genres";
-  document.getElementById("sect_desc").innerHTML = "Please rate each of the following genres based on how much you like them:";
+  document.getElementById("sect_desc").innerHTML = "Please check the boxes for each of the following genres that you like:";
   tbl = document.createElement("table");
   tbl.id = "input_tbl";
   document.getElementById("inputs").appendChild(tbl);
@@ -52,7 +52,7 @@ function add_genre_inputs(){
     td.style = "padding-right:2vw;";
 
     td.innerHTML = unique_genres[i];
-
+    /**
     selector = document.createElement("select");
     selector.id = unique_genres[i];
     option_0 = document.createElement("option");
@@ -80,7 +80,20 @@ function add_genre_inputs(){
       selector_changed(this.id, this.value, genres, "genre", genre_scores);
     }
     genre_scores[unique_genres[i]] = selector.value;
-    td2.appendChild(selector);
+    td2.appendChild(selector);**/
+    genre_scores[unique_genres[i]] = 0;
+    checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = unique_genres[i];
+    checkbox.onclick = function(e){
+      if(this.checked){
+        selector_changed(this.id, 1, genres, "genre", genre_scores);
+      }else{
+        selector_changed(this.id, 0, genres, "genre", genre_scores);
+      }
+    }
+
+    td2.appendChild(checkbox);
 
     document.getElementById("input_tbl").appendChild(tr);
   }
@@ -92,7 +105,7 @@ function add_genre_inputs(){
 
   for(var i = 0; i < y_values.length; i++){
     colors.push("rgba(0,0,0,1)");
-    x_values.push(rate_services(genres, "genre", genre_scores)[y_values[i]]);
+    x_values.push(0);
   }
 
   data = [{
@@ -123,6 +136,10 @@ function rate_services(set, key, user_scores){
 function selector_changed(id, new_value, set, key, set_scores){
   set_scores[id] = new_value;
   rate_services(set, key, set_scores);
+  update_plot(set, key, set_scores);
+}
+
+function update_plot(set, key, set_scores){
   var highest_index = 0;
   x_values = [];
   y_values = get_unique(set, "service").sort();
