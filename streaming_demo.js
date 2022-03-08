@@ -1,6 +1,6 @@
 service_genres_counted_url = "https://raw.githubusercontent.com/zlee1/StreamingServiceAnalysis/master/data/modified/service_genres_counted.txt"
 ratings_counted_url = "https://raw.githubusercontent.com/zlee1/StreamingServiceAnalysis/master/data/modified/ratings_counted.txt";
-//decades_counted_url = ""
+decades_counted_url = "https://raw.githubusercontent.com/zlee1/StreamingServiceAnalysis/master/data/modified/decades.txt"
 
 scores = {};
 sets = {};
@@ -15,6 +15,12 @@ fetch(ratings_counted_url)
     .then(response => response.text())
     .then(text => {
         sets["rating"] = JSON.parse(text);
+    });
+
+fetch(decades_counted_url)
+    .then(response => response.text())
+    .then(text => {
+        sets["decade"] = JSON.parse(text);
     });
 
 function get_by_service(service, key, set){
@@ -47,7 +53,7 @@ function add_inputs(key){
   document.getElementById("next").value = "Continue";
   clear_inputs();
   unique = get_unique(set, key).sort();
-  document.getElementById("sect_head").innerHTML = key;
+  document.getElementById("sect_head").innerHTML = key.toUpperCase() + "S";
   document.getElementById("sect_desc").innerHTML = "Please check the boxes for each of the following " + key + "s that you want:";
   tbl = document.createElement("table");
   tbl.id = "input_tbl";
@@ -188,9 +194,9 @@ function update_plot(set, key){
 document.getElementById("next").addEventListener('click', () =>{
   if(document.getElementById("sect_head").innerHTML == ""){
     add_inputs("genre");
-  }else if(document.getElementById("sect_head").innerHTML == "Genres"){
+  }else if(document.getElementById("sect_head").innerHTML == "GENRES"){
     add_inputs("rating");
-  }else if(document.getElementById("sect_head").innerHTML == "Ratings"){
-
+  }else if(document.getElementById("sect_head").innerHTML == "RATINGS"){
+    add_inputs("decade");
   }
 });
