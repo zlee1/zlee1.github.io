@@ -2,6 +2,8 @@ service_genres_counted_url = "https://raw.githubusercontent.com/zlee1/StreamingS
 ratings_counted_url = "https://raw.githubusercontent.com/zlee1/StreamingServiceAnalysis/master/data/modified/ratings_counted.txt";
 decades_counted_url = "https://raw.githubusercontent.com/zlee1/StreamingServiceAnalysis/master/data/modified/decades.txt"
 
+order = ["genre", "rating", "decade"];
+
 scores = {};
 sets = {};
 
@@ -193,10 +195,10 @@ function update_plot(set, key){
 
 document.getElementById("next").addEventListener('click', () =>{
   if(document.getElementById("sect_head").innerHTML == ""){
-    add_inputs("genre");
-  }else if(document.getElementById("sect_head").innerHTML == "GENRES"){
-    add_inputs("rating");
-  }else if(document.getElementById("sect_head").innerHTML == "RATINGS"){
-    add_inputs("decade");
+    add_inputs(order[0]);
+  }else if(document.getElementById("sect_head").innerHTML == order[0].toUpperCase() + "S"){
+    add_inputs(order[1]);
+  }else if(document.getElementById("sect_head").innerHTML == order[1].toUpperCase() + "S"){
+    add_inputs(order[2]);
   }
 });
