@@ -107,7 +107,9 @@ function add_inputs(key){
     marker: { color: colors},
     type: "bar",
     orientation: "v"  }];
-  layout = {title: "Streaming Service Leaderboard", showlegend: false,
+  layout = {//title: "<b>Streaming Service Leaderboard for " + key.charAt(0).toUpperCase() + key.slice(1) + "s</b><br>Service scores are the sum of <br>% of total * mean score * 1 if checked, 0 if not<br>for each " + key + " and service."
+    title: "<b>Streaming Service Leaderboard for " + key.charAt(0).toUpperCase() + key.slice(1) + "s</b>",
+    showlegend: false,
     yaxis: {title:"Service Score", showticklabels: false, range: [0,1]},
     xaxis: {showticklabels: true}};
 
@@ -189,6 +191,18 @@ function update_plot(set, key){
     }
   });
 }
+
+document.getElementById("back").addEventListener('click', () =>{
+  if(document.getElementById("sect_head").innerHTML == ""){
+    location.href = "ss_recommend.html";
+  }else if(document.getElementById("sect_head").innerHTML == order[0].toUpperCase() + "S"){
+    location.href = "streaming_demo.html";
+  }else if(document.getElementById("sect_head").innerHTML == order[1].toUpperCase() + "S"){
+    add_inputs(order[0]);
+  }else if(document.getElementById("sect_head").innerHTML == order[2].toUpperCase() + "S"){
+    add_inputs(order[1])
+  }
+});
 
 document.getElementById("next").addEventListener('click', () =>{
   if(document.getElementById("sect_head").innerHTML == ""){
