@@ -1,21 +1,20 @@
-var genres = null;
-var ratings = null;
-var data = [];
-var genre_scores = {};
-var rating_scores = {};
 service_genres_counted_url = "https://raw.githubusercontent.com/zlee1/StreamingServiceAnalysis/master/data/modified/service_genres_counted.txt"
 ratings_counted_url = "https://raw.githubusercontent.com/zlee1/StreamingServiceAnalysis/master/data/modified/ratings_counted.txt";
+//decades_counted_url = ""
+
+scores = {};
+sets = {};
 
 fetch(service_genres_counted_url)
     .then(response => response.text())
     .then(text => {
-        genres = JSON.parse(text);
+        sets["genre"] = JSON.parse(text);
     });
 
 fetch(ratings_counted_url)
     .then(response => response.text())
     .then(text => {
-        ratings = JSON.parse(text);
+        sets["rating"] = JSON.parse(text);
     });
 
 function get_by_service(service, key, set){
@@ -42,17 +41,19 @@ function clear_inputs(){
   document.getElementById("inputs").innerHTML = "";
 }
 
-function add_genre_inputs(){
+function add_inputs(key){
+  set = sets[key];
+  set_scores = {};
   document.getElementById("next").value = "Continue";
   clear_inputs();
-  unique_genres = get_unique(genres, "genre").sort();
-  document.getElementById("sect_head").innerHTML = "Genres";
-  document.getElementById("sect_desc").innerHTML = "Please check the boxes for each of the following genres that you like:";
+  unique = get_unique(set, key).sort();
+  document.getElementById("sect_head").innerHTML = key;
+  document.getElementById("sect_desc").innerHTML = "Please check the boxes for each of the following " + key + "s that you want:";
   tbl = document.createElement("table");
   tbl.id = "input_tbl";
   document.getElementById("inputs").appendChild(tbl);
 
-  for(var i = 0; i < unique_genres.length; i++){
+  for(var i = 0; i < unique.length; i++){
     tr = document.createElement("tr");
     td = document.createElement("td");
     tr.appendChild(td);
@@ -60,17 +61,17 @@ function add_genre_inputs(){
     tr.appendChild(td2);
     td.style = "padding-right:2vw;";
 
-    td.innerHTML = unique_genres[i];
+    td.innerHTML = unique[i];
 
-    genre_scores[unique_genres[i]] = 0;
+    set_scores[unique[i]] = 0;
     checkbox = document.createElement("input");
     checkbox.type = "checkbox";
-    checkbox.id = unique_genres[i];
+    checkbox.id = unique[i];
     checkbox.onclick = function(e){
       if(this.checked){
-        selector_changed(this.id, 1, genres, "genre", genre_scores);
+        selector_changed(this.id, 1, set, key);
       }else{
-        selector_changed(this.id, 0, genres, "genre", genre_scores);
+        selector_changed(this.id, 0, set, key);
       }
     }
 
@@ -78,9 +79,12 @@ function add_genre_inputs(){
 
     document.getElementById("input_tbl").appendChild(tr);
   }
+
+  scores[key] = set_scores;
+
   y_values = [];
 
-  x_values = get_unique(genres, "service").sort();
+  x_values = get_unique(set, "service").sort();
 
   var colors = [];
 
@@ -102,65 +106,6 @@ function add_genre_inputs(){
   Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
 }
 
-function add_rating_inputs(){
-  document.getElementById("next").value = "Continue";
-  clear_inputs();
-  unique_ratings = get_unique(ratings, "rating").sort();
-  document.getElementById("sect_head").innerHTML = "Ratings";
-  document.getElementById("sect_desc").innerHTML = "Please check the boxes for each of the following ratings that you want:";
-  tbl = document.createElement("table");
-  tbl.id = "input_tbl";
-  document.getElementById("inputs").appendChild(tbl);
-
-  for(var i = 0; i < unique_ratings.length; i++){
-    tr = document.createElement("tr");
-    td = document.createElement("td");
-    tr.appendChild(td);
-    td2 = document.createElement("td");
-    tr.appendChild(td2);
-    td.style = "padding-right:2vw;";
-
-    td.innerHTML = unique_ratings[i];
-
-    rating_scores[unique_ratings[i]] = 0;
-    checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
-    checkbox.id = unique_ratings[i];
-    checkbox.onclick = function(e){
-      if(this.checked){
-        selector_changed(this.id, 1, ratings, "rating", rating_scores);
-      }else{
-        selector_changed(this.id, 0, ratings, "rating", rating_scores);
-      }
-    }
-
-    td2.appendChild(checkbox);
-
-    document.getElementById("input_tbl").appendChild(tr);
-  }
-  y_values = [];
-
-  x_values = get_unique(ratings, "service").sort();
-
-  var colors = [];
-
-  for(var i = 0; i < x_values.length; i++){
-    colors.push("rgba(0,0,0,1)");
-    y_values.push(0.5);
-  }
-
-  data = [{
-    x: x_values,
-    y: y_values,
-    marker: { color: colors},
-    type: "bar",
-    orientation: "v"  }];
-  layout = {title: "Streaming Service Leaderboard", showlegend: false,
-    yaxis: {title:"Service Score", showticklabels: false, range: [0,1]}};
-
-  Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
-}
-
 function sigmoid(values){
   sum = 0;
   for(var i = 0; i < values.length; i++){
@@ -174,7 +119,8 @@ function sigmoid(values){
   return values;
 }
 
-function rate_services(set, key, user_scores){
+function rate_services(set, key){
+  user_scores = scores[key];
   unique_services = get_unique(set, "service").sort();
   var service_scores = {};
   for(var i = 0; i < unique_services.length; i++){
@@ -187,13 +133,15 @@ function rate_services(set, key, user_scores){
   return service_scores;
 }
 
-function selector_changed(id, new_value, set, key, set_scores){
-  set_scores[id] = new_value;
-  rate_services(set, key, set_scores);
-  update_plot(set, key, set_scores);
+function selector_changed(id, new_value, set, key){
+  console.log(scores);
+  scores[key][id] = new_value;
+  rate_services(set, key);
+  update_plot(set, key);
 }
 
-function update_plot(set, key, set_scores){
+function update_plot(set, key){
+  set_scores = scores[key];
   var highest_index = 0;
   y_values = [];
   x_values = get_unique(set, "service").sort();
@@ -239,9 +187,9 @@ function update_plot(set, key, set_scores){
 
 document.getElementById("next").addEventListener('click', () =>{
   if(document.getElementById("sect_head").innerHTML == ""){
-    add_genre_inputs();
+    add_inputs("genre");
   }else if(document.getElementById("sect_head").innerHTML == "Genres"){
-    add_rating_inputs();
+    add_inputs("rating");
   }else if(document.getElementById("sect_head").innerHTML == "Ratings"){
 
   }
