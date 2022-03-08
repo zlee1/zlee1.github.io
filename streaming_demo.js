@@ -142,7 +142,6 @@ function rate_services(set, key){
 }
 
 function selector_changed(id, new_value, set, key){
-  console.log(scores);
   scores[key][id] = new_value;
   rate_services(set, key);
   update_plot(set, key);
@@ -170,8 +169,6 @@ function update_plot(set, key){
   }
 
   y_values = sigmoid(y_values);
-
-  console.log(data);
 
   Plotly.animate("myPlot", {
     data: [{
