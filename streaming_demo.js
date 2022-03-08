@@ -192,7 +192,7 @@ function update_plot(set, key, set_scores){
   }
 
   //x_values = normalize(x_values);
-  x_values = sigmoid(x_values);
+  //x_values = sigmoid(x_values);
 
   data[0]["x"] = x_values;
   data[0]["y"] = y_values;
