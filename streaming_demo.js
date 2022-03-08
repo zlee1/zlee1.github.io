@@ -1,12 +1,21 @@
 var genres = null;
+var ratings = null;
 var data = [];
 var genre_scores = {};
+var rating_scores = {};
 service_genres_counted_url = "https://raw.githubusercontent.com/zlee1/StreamingServiceAnalysis/master/data/modified/service_genres_counted.txt"
+ratings_counted_url = "https://raw.githubusercontent.com/zlee1/StreamingServiceAnalysis/master/data/modified/ratings_counted.txt";
 
 fetch(service_genres_counted_url)
     .then(response => response.text())
     .then(text => {
         genres = JSON.parse(text);
+    });
+
+fetch(ratings_counted_url)
+    .then(response => response.text())
+    .then(text => {
+        ratings = JSON.parse(text);
     });
 
 function get_by_service(service, key, set){
@@ -52,35 +61,7 @@ function add_genre_inputs(){
     td.style = "padding-right:2vw;";
 
     td.innerHTML = unique_genres[i];
-    /**
-    selector = document.createElement("select");
-    selector.id = unique_genres[i];
-    option_0 = document.createElement("option");
-    option_0.innerHTML = "Love";
-    option_0.value = 3;
-    selector.appendChild(option_0);
-    option_1 = document.createElement("option");
-    option_1.innerHTML = "Like";
-    option_1.value = 2;
-    selector.appendChild(option_1);
-    option_2 = document.createElement("option");
-    option_2.innerHTML = "Neutral";
-    option_2.value = 0;
-    selector.appendChild(option_2);
-    option_3 = document.createElement("option");
-    option_3.innerHTML = "Dislike";
-    option_3.value = -1;
-    selector.appendChild(option_3);
-    option_4 = document.createElement("option");
-    option_4.innerHTML = "Hate";
-    option_4.value = -2;
-    selector.appendChild(option_4);
-    selector.value = 0;
-    selector.onchange = function(e){
-      selector_changed(this.id, this.value, genres, "genre", genre_scores);
-    }
-    genre_scores[unique_genres[i]] = selector.value;
-    td2.appendChild(selector);**/
+
     genre_scores[unique_genres[i]] = 0;
     checkbox = document.createElement("input");
     checkbox.type = "checkbox";
@@ -115,7 +96,66 @@ function add_genre_inputs(){
     type: "bar",
     orientation: "h"  }];
   layout = {title: "Streaming Service Leaderboard", showlegend: false,
-    xaxis: {title:"Service Score", /**showticklabels: false,**/ rangemode: "tozero"}};
+    xaxis: {title:"Service Score", showticklabels: false, rangemode: "tozero"}};
+
+  Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
+}
+
+function add_rating_inputs(){
+  document.getElementById("next").value = "Continue";
+  clear_inputs();
+  unique_ratings = get_unique(ratings, "rating").sort();
+  document.getElementById("sect_head").innerHTML = "Ratings";
+  document.getElementById("sect_desc").innerHTML = "Please check the boxes for each of the following ratings that you want:";
+  tbl = document.createElement("table");
+  tbl.id = "input_tbl";
+  document.getElementById("inputs").appendChild(tbl);
+
+  for(var i = 0; i < unique_ratings.length; i++){
+    tr = document.createElement("tr");
+    td = document.createElement("td");
+    tr.appendChild(td);
+    td2 = document.createElement("td");
+    tr.appendChild(td2);
+    td.style = "padding-right:2vw;";
+
+    td.innerHTML = unique_ratings[i];
+
+    rating_scores[unique_ratings[i]] = 0;
+    checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.id = unique_ratings[i];
+    checkbox.onclick = function(e){
+      if(this.checked){
+        selector_changed(this.id, 1, ratings, "rating", rating_scores);
+      }else{
+        selector_changed(this.id, 0, ratings, "rating", rating_scores);
+      }
+    }
+
+    td2.appendChild(checkbox);
+
+    document.getElementById("input_tbl").appendChild(tr);
+  }
+  x_values = [];
+
+  y_values = get_unique(ratings, "service").sort();
+
+  var colors = [];
+
+  for(var i = 0; i < y_values.length; i++){
+    colors.push("rgba(0,0,0,1)");
+    x_values.push(0);
+  }
+
+  data = [{
+    x: x_values,
+    y: y_values,
+    marker: { color: colors},
+    type: "bar",
+    orientation: "h"  }];
+  layout = {title: "Streaming Service Leaderboard", showlegend: false,
+    xaxis: {title:"Service Score", showticklabels: false, rangemode: "tozero"}};
 
   Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
 }
@@ -203,5 +243,7 @@ function update_plot(set, key, set_scores){
 document.getElementById("next").addEventListener('click', () =>{
   if(document.getElementById("sect_head").innerHTML == ""){
     add_genre_inputs();
+  }else if(document.getElementById("sect_head").innerHTML == "Genres"){
+    add_rating_inputs();
   }
 });
