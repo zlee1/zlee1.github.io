@@ -61,6 +61,10 @@ function add_inputs(key){
   tbl.id = "input_tbl";
   document.getElementById("inputs").appendChild(tbl);
 
+  if(key == "rating"){
+    unique = ['G', 'PG', 'PG-13', 'R', 'NC-17', 'NR'];
+  }
+
   for(var i = 0; i < unique.length; i++){
     tr = document.createElement("tr");
     td = document.createElement("td");
