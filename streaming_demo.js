@@ -78,15 +78,15 @@ function add_genre_inputs(){
 
     document.getElementById("input_tbl").appendChild(tr);
   }
-  x_values = [];
+  y_values = [];
 
-  y_values = get_unique(genres, "service").sort();
+  x_values = get_unique(genres, "service").sort();
 
   var colors = [];
 
-  for(var i = 0; i < y_values.length; i++){
+  for(var i = 0; i < x_values.length; i++){
     colors.push("rgba(0,0,0,1)");
-    x_values.push(0);
+    y_values.push(0.5);
   }
 
   data = [{
@@ -94,9 +94,10 @@ function add_genre_inputs(){
     y: y_values,
     marker: { color: colors},
     type: "bar",
-    orientation: "h"  }];
+    orientation: "v"  }];
   layout = {title: "Streaming Service Leaderboard", showlegend: false,
-    xaxis: {title:"Service Score", showticklabels: false, rangemode: "tozero"}};
+    yaxis: {title:"Service Score", showticklabels: false, range: [0,1]},
+    xaxis: {showticklabels: true}};
 
   Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
 }
@@ -137,15 +138,15 @@ function add_rating_inputs(){
 
     document.getElementById("input_tbl").appendChild(tr);
   }
-  x_values = [];
+  y_values = [];
 
-  y_values = get_unique(ratings, "service").sort();
+  x_values = get_unique(ratings, "service").sort();
 
   var colors = [];
 
-  for(var i = 0; i < y_values.length; i++){
+  for(var i = 0; i < x_values.length; i++){
     colors.push("rgba(0,0,0,1)");
-    x_values.push(0);
+    y_values.push(0.5);
   }
 
   data = [{
@@ -153,34 +154,11 @@ function add_rating_inputs(){
     y: y_values,
     marker: { color: colors},
     type: "bar",
-    orientation: "h"  }];
+    orientation: "v"  }];
   layout = {title: "Streaming Service Leaderboard", showlegend: false,
-    xaxis: {title:"Service Score", showticklabels: false, rangemode: "tozero"}};
+    yaxis: {title:"Service Score", showticklabels: false, range: [0,1]}};
 
   Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
-}
-
-function normalize(values){
-
-  max = values[0];
-  min = values[0];
-  sum = 0;
-  for(var i = 0; i < values.length; i++){
-    sum += values[i];
-    if(values[i] > max){
-      max = values[i];
-    }
-
-    if(values[i] < min){
-      min = values[i];
-    }
-  }
-  avg = sum/values.length;
-
-  for(var i = 0; i < values.length; i++){
-    values[i] = (values[i]-min)/(avg);
-  }
-  return values;
 }
 
 function sigmoid(values){
@@ -217,27 +195,46 @@ function selector_changed(id, new_value, set, key, set_scores){
 
 function update_plot(set, key, set_scores){
   var highest_index = 0;
-  x_values = [];
-  y_values = get_unique(set, "service").sort();
+  y_values = [];
+  x_values = get_unique(set, "service").sort();
+  colors = [];
+  traces = [];
 
-  for(var i = 0; i < y_values.length; i++){
-    x_values.push(rate_services(set, key, set_scores)[y_values[i]]);
-    if(x_values[i] > x_values[highest_index] || i == highest_index){
-      data[0]["marker"]["color"][highest_index] = "rgba(0,0,0,1)";
+  for(var i = 0; i < x_values.length; i++){
+    traces.push(0);
+    colors.push("rgba(0,0,0,1)");
+    y_values.push(rate_services(set, key, set_scores)[x_values[i]]);
+    if(y_values[i] > y_values[highest_index] || i == highest_index){
+      colors[highest_index] = "rgba(0,0,0,1)";
       highest_index = i;
-      data[0]["marker"]["color"][highest_index] = "rgba(255, 236, 135, 1)";
+      colors[highest_index] = "rgba(255, 236, 135, 1)";
     }else{
-      data[0]["marker"]["color"][i] = "rgba(0,0,0,1)";
+      colors[i] = "rgba(0,0,0,1)";
     }
   }
 
-  //x_values = normalize(x_values);
-  //x_values = sigmoid(x_values);
+  y_values = sigmoid(y_values);
 
-  data[0]["x"] = x_values;
-  data[0]["y"] = y_values;
+  console.log(data);
 
-  Plotly.redraw("myPlot");
+  Plotly.animate("myPlot", {
+    data: [{
+      x: x_values,
+      y: y_values,
+      marker: { color: colors},
+      type: "bar",
+      orientation: "v"  }],
+    layout: {}
+  },
+  {
+    transition: {
+      duration: 500,
+      easing: 'cubic-in-out'
+    },
+    frame: {
+      duration: 500
+    }
+  });
 }
 
 document.getElementById("next").addEventListener('click', () =>{
@@ -245,5 +242,7 @@ document.getElementById("next").addEventListener('click', () =>{
     add_genre_inputs();
   }else if(document.getElementById("sect_head").innerHTML == "Genres"){
     add_rating_inputs();
+  }else if(document.getElementById("sect_head").innerHTML == "Ratings"){
+
   }
 });
