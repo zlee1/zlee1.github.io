@@ -46,6 +46,7 @@ function get_unique(set, key){
 }
 
 function clear_inputs(){
+  document.getElementById("info").innerHTML = "";
   document.getElementById("inputs").innerHTML = "";
 }
 
