@@ -103,7 +103,7 @@ function add_inputs(key){
 
   for(var i = 0; i < x_values.length; i++){
     colors.push("rgba(0,0,0,1)");
-    y_values.push(0.5);
+    y_values.push(0.001);
   }
 
   data = [{
@@ -129,7 +129,7 @@ function sigmoid(values){
   avg = sum/values.length;
 
   for(var i = 0; i < values.length; i++){
-    values[i] = 1/(1+Math.exp(-1*.5*((values[i])-avg/2)));
+    values[i] = 1/(1+Math.exp(-1*((values[i])-5)));
   }
   return values;
 }
