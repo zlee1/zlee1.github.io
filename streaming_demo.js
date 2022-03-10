@@ -115,7 +115,7 @@ function add_inputs(key){
   layout = {//title: "<b>Streaming Service Leaderboard for " + key.charAt(0).toUpperCase() + key.slice(1) + "s</b><br>Service scores are the sum of <br>% of total * mean score * 1 if checked, 0 if not<br>for each " + key + " and service."
     title: "<b>Streaming Service Leaderboard for " + key.charAt(0).toUpperCase() + key.slice(1) + "s</b>",
     showlegend: false,
-    yaxis: {title:"Service Score", showticklabels: false, range: [0,1]},
+    yaxis: {title:"sigmoid(Service Score)", showticklabels: true, range: [0,1]},
     xaxis: {showticklabels: true}};
 
   Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
