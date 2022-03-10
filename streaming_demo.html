@@ -14,10 +14,33 @@
         <br>
         The project asks questions about movie preferences and then rates streaming services based on how they accommodate those preferences.
         <br>
+        <h2 style="margin:0px;">Metric and Evaluation</h2>
         <br>
         Streaming services are rated by maximizing the following metric:
+        <br><br>
+        <i>Service Score = &#931; user score * percentage of total * mean score</i>
+        <br><br>
+        Where <i>user score</i> is 1 if the user checked the box for the category and 0 if they did not,
         <br>
-        <i>Will add this later. Kinda busy right now. </i>
+        <i>percentage of total</i> is the percentage of the total movies on a service composed of that category,
+        <br>
+        and <i>mean score</i> is the mean IMDb and TMDb rating for that category.
+        <br><br>
+        Genre Example: 21% of a service's movies are action movies and they have an average score of 6.8. The user checks the <i>Action</i> box.
+        <br>
+        The Service Score for action movies is then: 1*.21*6.8 = 1.428. The total Service Score would be the sum of these for each genre.
+        <br>
+        Large scores mean the service is a good fit for the specific category.
+        <br><br>
+        The service scores then go through a sigmoidal transformation with the function:
+        <br><br>
+        <i>sigmoid(Service Score) = 1/(1+e^(-.5*(Service Score - mean(Service Score)/2)))</i>
+        <br><br>
+        This restricts the values to be between 0 and 1, while still being able to properly adjust to changes.
+        <br><br>
+        The goal of the project is to find the streaming service that best fits the user's movie preferences.
+        <br>
+        It will do this by finding the service with the highest score. 
       </p>
       <table>
         <tr>
