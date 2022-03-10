@@ -104,6 +104,7 @@ function add_inputs(key){
   for(var i = 0; i < x_values.length; i++){
     colors.push("rgba(0,0,0,1)");
     y_values.push(0.001);
+    x_values[i] = x_values[i].charAt(0).toUpperCase() + x_values[i].slice(1);
   }
 
   data = [{
@@ -161,16 +162,28 @@ function update_plot(set, key){
   x_values = get_unique(set, "service").sort();
   colors = [];
   traces = [];
+  all_same = true;
 
   for(var i = 0; i < x_values.length; i++){
+
     traces.push(0);
     colors.push("rgba(0,0,0,1)");
     y_values.push(rate_services(set, key, set_scores)[x_values[i]]);
+    if(y_values[highest_index] != y_values[i]){
+      all_same = false;
+    }
     if(y_values[i] > y_values[highest_index] || i == highest_index){
       colors[highest_index] = "rgba(0,0,0,1)";
       highest_index = i;
       colors[highest_index] = "rgba(255, 236, 135, 1)";
     }else{
+      colors[i] = "rgba(0,0,0,1)";
+    }
+    x_values[i] = x_values[i].charAt(0).toUpperCase() + x_values[i].slice(1);
+  }
+
+  if(all_same){
+    for(var i = 0; i < colors.length; i++){
       colors[i] = "rgba(0,0,0,1)";
     }
   }
