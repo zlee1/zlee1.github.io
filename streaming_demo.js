@@ -6,6 +6,10 @@ order = ["genre", "rating", "decade"];
 
 scores = {};
 sets = {};
+weights = {};
+for(var i = 0; i < order.length; i++){
+  weights[order[i]] = 1;
+}
 
 fetch(service_genres_counted_url)
     .then(response => response.text())
@@ -48,6 +52,8 @@ function get_unique(set, key){
 function clear_inputs(){
   document.getElementById("info").innerHTML = "";
   document.getElementById("inputs").innerHTML = "";
+  document.getElementById("sect_head").innerHTML = "";
+  document.getElementById("sect_desc").innerHTML = "";
 }
 
 function add_inputs(key){
@@ -113,13 +119,74 @@ function add_inputs(key){
     marker: { color: colors},
     type: "bar",
     orientation: "v"  }];
-  layout = {//title: "<b>Streaming Service Leaderboard for " + key.charAt(0).toUpperCase() + key.slice(1) + "s</b><br>Service scores are the sum of <br>% of total * mean score * 1 if checked, 0 if not<br>for each " + key + " and service."
+  layout = {
     title: "<b>Streaming Service Leaderboard for " + key.charAt(0).toUpperCase() + key.slice(1) + "s</b>",
     showlegend: false,
     yaxis: {title:"sigmoid(Service Score)", showticklabels: true, range: [0,1]},
     xaxis: {showticklabels: true}};
 
   Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
+}
+
+function add_weight_inputs(){
+  document.getElementById("next").value = "Finish";
+  clear_inputs();
+  tbl = document.createElement("table");
+  tbl.id = "input_tbl";
+  document.getElementById("inputs").appendChild(tbl);
+
+  for(var i = 0; i < order.length; i++){
+    tr = document.createElement("tr");
+    td = document.createElement("td");
+    tr.appendChild(td);
+    td2 = document.createElement("td");
+    tr.appendChild(td2);
+    td.style = "padding-right:2vw;";
+
+    td.innerHTML = order[i].charAt(0).toUpperCase() + order[i].slice(1);
+
+    selector = document.createElement("select");
+    selector.id = order[i];
+    option_0 = document.createElement("option");
+    option_0.innerHTML = "Very important";
+    option_0.value = 3;
+    selector.appendChild(option_0);
+    option_1 = document.createElement("option");
+    option_1.innerHTML = "Important";
+    option_1.value = 2;
+    selector.appendChild(option_1);
+    option_2 = document.createElement("option");
+    option_2.innerHTML = "Not very important";
+    option_2.value = 1;
+    selector.appendChild(option_2);
+    option_3 = document.createElement("option");
+    option_3.innerHTML = "Doesn't matter at all";
+    option_3.value = 0;
+    selector.appendChild(option_3);
+
+    selector.value = 1;
+    selector.onchange = function(e){
+      weights[this.id] = parseInt(this.value);
+      update_final_score_plot();
+    }
+    td2.appendChild(selector);
+
+    document.getElementById("input_tbl").appendChild(tr);
+  }
+
+  // Add plot handling
+}
+
+function get_final_scores(){
+  console.log("scoring");
+}
+
+function normalize(values){
+  console.log("normalizing values");
+}
+
+function update_final_score_plot(){
+  console.log("updating plot");
 }
 
 function sigmoid(values){
@@ -229,5 +296,7 @@ document.getElementById("next").addEventListener('click', () =>{
     add_inputs(order[1]);
   }else if(document.getElementById("sect_head").innerHTML == order[1].toUpperCase() + "S"){
     add_inputs(order[2]);
+  }else if(document.getElementById("sect_head").innerHTML == order[2].toUpperCase() + "S"){
+    add_weight_inputs();
   }
 });
