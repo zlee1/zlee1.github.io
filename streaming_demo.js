@@ -134,6 +134,8 @@ function add_weight_inputs(){
   tbl = document.createElement("table");
   tbl.id = "input_tbl";
   document.getElementById("inputs").appendChild(tbl);
+  document.getElementById("sect_head").innerHTML = "WEIGHTING FEATURES";
+  document.getElementById("sect_desc").innerHTML = "Please rate how important each of the following features are to you.";
 
   for(var i = 0; i < order.length; i++){
     tr = document.createElement("tr");
@@ -174,19 +176,186 @@ function add_weight_inputs(){
     document.getElementById("input_tbl").appendChild(tr);
   }
 
-  // Add plot handling
+  final_scores = get_final_scores();
+
+  x_values = [];
+  y_values = [];
+  for (const key in final_scores) {
+    y_values.push(final_scores[key]);
+    x_values.push(key);
+  }
+
+  var colors = [];
+
+  for(var i = 0; i < x_values.length; i++){
+    colors.push("rgba(0,0,0,1)");
+    x_values[i] = x_values[i].charAt(0).toUpperCase() + x_values[i].slice(1);
+  }
+
+  max_y = 0;
+  for (var i = 0; i < y_values.length; i++) {
+    if(y_values[i] > max_y){
+      max_y = y_values[i];
+    }
+  }
+
+  data = [{
+    x: x_values,
+    y: y_values,
+    marker: { color: colors},
+    type: "bar",
+    orientation: "v"  }];
+  layout = {
+    title: "<b>Overall Streaming Service Leaderboard</b>",
+    showlegend: false,
+    yaxis: {title:"Sum of Weighted Scores For Each Feature", showticklabels: true, range:[0,max_y]},
+    xaxis: {showticklabels: true}};
+
+  Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
+  update_final_score_plot();
 }
 
 function get_final_scores(){
-  console.log("scoring");
+  all_scores = {};
+  services = get_unique(sets["decade"], "service").sort();
+  for(var i = 0; i < order.length; i++){
+    all_scores[order[i]] = weight(order[i], normalize(rate_services(sets[order[i]], order[i])));
+  }
+
+  summed_scores = {};
+  for (var i = 0; i < services.length; i++) {
+    s = 0;
+    for(var j = 0; j < order.length; j++){
+      s += all_scores[order[j]][services[i]];
+    }
+    summed_scores[services[i]] = s;
+  }
+
+  return summed_scores;
 }
 
-function normalize(values){
-  console.log("normalizing values");
+function weight(key, set){
+  values = [];
+  keys = [];
+  for (const key in set) {
+    values.push(set[key]);
+    keys.push(key);
+  }
+
+  for (var i = 0; i < values.length; i++) {
+    values[i] *= weights[key]/2;
+  }
+
+  weighted = {};
+
+  for (var i = 0; i < keys.length; i++) {
+    weighted[keys[i]] = values[i];
+  }
+  return weighted;
+}
+
+function normalize(set){
+  values = [];
+  keys = [];
+  for (const key in set) {
+    values.push(set[key]);
+    keys.push(key);
+  }
+  max = values[0];
+  min = values[0];
+  sum = 0;
+  for(var i = 0; i < values.length; i++){
+    sum += values[i];
+    if(values[i] > max){
+      max = values[i];
+    }
+
+    if(values[i] < min){
+      min = values[i];
+    }
+  }
+  avg = sum/values.length;
+
+  for(var i = 0; i < values.length; i++){
+    values[i] = (values[i]-min)/(max-min);
+  }
+
+  normalized = {};
+
+  for (var i = 0; i < keys.length; i++) {
+    normalized[keys[i]] = values[i];
+  }
+  return normalized;
 }
 
 function update_final_score_plot(){
-  console.log("updating plot");
+  final_scores = get_final_scores();
+
+  var highest_index = 0;
+
+  x_values = [];
+  y_values = [];
+  for (const key in final_scores) {
+    y_values.push(final_scores[key]);
+    x_values.push(key);
+  }
+
+  colors = [];
+  traces = [];
+  all_same = true;
+
+  for(var i = 0; i < x_values.length; i++){
+
+    traces.push(0);
+    colors.push("rgba(0,0,0,1)");
+    if(y_values[highest_index] != y_values[i]){
+      all_same = false;
+    }
+    if(y_values[i] > y_values[highest_index] || i == highest_index){
+      colors[highest_index] = "rgba(0,0,0,1)";
+      highest_index = i;
+      colors[highest_index] = "rgba(255, 236, 135, 1)";
+    }else{
+      colors[i] = "rgba(0,0,0,1)";
+    }
+  }
+
+  if(all_same){
+    for(var i = 0; i < colors.length; i++){
+      colors[i] = "rgba(0,0,0,1)";
+    }
+  }
+
+
+  Plotly.animate("myPlot", {
+    data: [{
+      x: x_values,
+      y: y_values,
+      marker: { color: colors},
+      type: "bar",
+      orientation: "v"  }]
+  },
+  {
+    transition: {
+      duration: 500,
+      easing: 'cubic-in-out'
+    },
+    frame: {
+      duration: 500
+    }
+  });
+  Plotly.animate("myPlot", {
+    layout: {yaxis:{range:[0,y_values[highest_index]]}}
+  },
+  {
+    transition: {
+      duration: 500,
+      easing: 'cubic-in-out'
+    },
+    frame: {
+      duration: 500
+    }
+  });
 }
 
 function sigmoid(values){
@@ -286,6 +455,8 @@ document.getElementById("back").addEventListener('click', () =>{
     add_inputs(order[0]);
   }else if(document.getElementById("sect_head").innerHTML == order[2].toUpperCase() + "S"){
     add_inputs(order[1])
+  }else if(document.getElementById("sect_head").innerHTML == "WEIGHTING FEATURES"){
+    add_inputs(order[2])
   }
 });
 
