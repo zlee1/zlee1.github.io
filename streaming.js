@@ -450,7 +450,7 @@ document.getElementById("back").addEventListener('click', () =>{
   if(document.getElementById("sect_head").innerHTML == ""){
     location.href = "index.html";
   }else if(document.getElementById("sect_head").innerHTML == order[0].toUpperCase() + "S"){
-    location.href = "ss_recommend.html";
+    location.href = "capstone.html";
   }else if(document.getElementById("sect_head").innerHTML == order[1].toUpperCase() + "S"){
     add_inputs(order[0]);
   }else if(document.getElementById("sect_head").innerHTML == order[2].toUpperCase() + "S"){
