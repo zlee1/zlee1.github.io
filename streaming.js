@@ -325,7 +325,7 @@ function update_final_score_plot(){
     if(y_values[i] > y_values[highest_index] || i == highest_index){
       colors[highest_index] = "rgba(0,0,0,1)";
       highest_index = i;
-      colors[highest_index] = "rgba(255, 236, 135, 1)";
+      colors[highest_index] = "rgba(125, 239, 132, 1)";
     }else{
       colors[i] = "rgba(0,0,0,1)";
     }
@@ -422,7 +422,7 @@ function update_plot(set, key){
     if(y_values[i] > y_values[highest_index] || i == highest_index){
       colors[highest_index] = "rgba(0,0,0,1)";
       highest_index = i;
-      colors[highest_index] = "rgba(255, 236, 135, 1)";
+      colors[highest_index] = "rgba(125, 239, 132, 1)";
     }else{
       colors[i] = "rgba(0,0,0,1)";
     }
