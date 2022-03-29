@@ -58,7 +58,11 @@ function clear_inputs(){
 
 function add_inputs(key){
   set = sets[key];
-  set_scores = {};
+  if(scores[key] != undefined){
+    set_scores = scores[key];
+  }else{
+    set_scores = {};
+  }
   document.getElementById("next").value = "Continue";
   clear_inputs();
   unique = get_unique(set, key).sort();
@@ -81,11 +85,17 @@ function add_inputs(key){
     td.style = "padding-right:2vw;";
 
     td.innerHTML = unique[i];
-
-    set_scores[unique[i]] = 0;
     checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.id = unique[i];
+    if(unique[i] in set_scores){
+      if(set_scores[unique[i]] == 1){
+        checkbox.checked = true;
+      }
+    }else{
+      set_scores[unique[i]] = 0;
+    }
+
     checkbox.onclick = function(e){
       if(this.checked){
         selector_changed(this.id, 1, set, key);
@@ -126,6 +136,7 @@ function add_inputs(key){
     xaxis: {showticklabels: true}};
 
   Plotly.newPlot("myPlot", data, layout, {staticPlot: true});
+  update_plot(set, key);
 }
 
 function add_weight_inputs(){
@@ -134,7 +145,7 @@ function add_weight_inputs(){
   tbl = document.createElement("table");
   tbl.id = "input_tbl";
   document.getElementById("inputs").appendChild(tbl);
-  document.getElementById("sect_head").innerHTML = "WEIGHTING FEATURES";
+  document.getElementById("sect_head").innerHTML = "WEIGHING FEATURES";
   document.getElementById("sect_desc").innerHTML = "Please rate how important each of the following features are to you.";
 
   for(var i = 0; i < order.length; i++){
@@ -297,7 +308,7 @@ function update_final_score_plot(){
   y_values = [];
   for (const key in final_scores) {
     y_values.push(final_scores[key]);
-    x_values.push(key);
+    x_values.push(key.charAt(0).toUpperCase() + key.slice(1));
   }
 
   colors = [];
@@ -455,7 +466,7 @@ document.getElementById("back").addEventListener('click', () =>{
     add_inputs(order[0]);
   }else if(document.getElementById("sect_head").innerHTML == order[2].toUpperCase() + "S"){
     add_inputs(order[1])
-  }else if(document.getElementById("sect_head").innerHTML == "WEIGHTING FEATURES"){
+  }else if(document.getElementById("sect_head").innerHTML == "WEIGHING FEATURES"){
     add_inputs(order[2])
   }
 });
