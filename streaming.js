@@ -565,7 +565,7 @@ function generate_final_plots(){
       default:
         break;
     }
-    info_str += "</b><br>seems like the best option for you based on the preferences provided.</p>";
+    info_str += "</b><br>seems like the best option for you based on the preferences provided.<br><a href=capstone.html>Restart?</a></p>";
 
     document.getElementById("info").innerHTML = info_str;
   }
