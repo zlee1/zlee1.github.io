@@ -313,7 +313,11 @@ function update_final_score_plot(){
   x_values = [];
   y_values = [];
   for (const key in final_scores) {
-    y_values.push(final_scores[key]);
+    if(!final_scores[key] > 0){
+      y_values.push(0);
+    }else{
+      y_values.push(final_scores[key]);
+    }
     x_values.push(key.charAt(0).toUpperCase() + key.slice(1));
   }
 
@@ -395,7 +399,6 @@ function rate_services(set, key){
   for(var i = 0; i < unique_services.length; i++){
     service_scores[unique_services[i]] = 0;
   }
-
   for(var i = 0; i < set[key].length; i++){
     service_scores[set["service"][i]] += set["percentage_of_total"][i]*user_scores[set[key][i]]*set["mean_score"][i];
   }
@@ -408,7 +411,7 @@ function selector_changed(id, new_value, set, key){
   update_plot(set, key);
 }
 
-function update_plot(set, key){
+function update_plot(set, key, plot_name="myPlot"){
   set_scores = scores[key];
   var highest_index = 0;
   y_values = [];
@@ -443,7 +446,7 @@ function update_plot(set, key){
 
   y_values = sigmoid(y_values);
 
-  Plotly.animate("myPlot", {
+  Plotly.animate(plot_name, {
     data: [{
       x: x_values,
       y: y_values,
@@ -461,6 +464,197 @@ function update_plot(set, key){
       duration: 500
     }
   });
+}
+
+function generate_final_plots(){
+  traces = [];
+  for (var i = 0; i < order.length; i++) {
+    set = sets[order[i]];
+    x_values = [];
+    y_values = [];
+    colors = [];
+
+    set_scores = scores[order[i]];
+    var highest_index = 0;
+    x_values = get_unique(set, "service").sort();
+    all_same = true;
+
+    for(var j = 0; j < x_values.length; j++){
+      colors.push("#777777");
+      y_values.push(rate_services(set, order[i], set_scores)[x_values[j]]);
+      if(y_values[highest_index] != y_values[j]){
+        all_same = false;
+      }
+      if(y_values[j] > y_values[highest_index] || j == highest_index){
+        colors[highest_index] = "#777777";
+        highest_index = j;
+        colors[highest_index] = "rgba(125, 239, 132, 1)";
+      }else{
+        colors[j] = "#777777";
+      }
+      x_values[j] = x_values[j].charAt(0).toUpperCase() + x_values[j].slice(1);
+    }
+
+    if(all_same){
+      for(var k = 0; k < colors.length; k++){
+        colors[j] = "#777777";
+      }
+    }
+    traces.push([x_values,y_values,colors]);
+  }
+  final_scores = get_final_scores();
+
+  var highest_index = 0;
+
+  x_values = [];
+  y_values = [];
+  for (const key in final_scores) {
+    if(!final_scores[key] > 0){
+      y_values.push(0);
+    }else{
+      y_values.push(final_scores[key]);
+    }
+    x_values.push(key.charAt(0).toUpperCase() + key.slice(1));
+  }
+
+  colors = [];
+  all_same = true;
+
+  for(var i = 0; i < x_values.length; i++){
+
+    colors.push("#777777");
+    if(y_values[highest_index] != y_values[i]){
+      all_same = false;
+    }
+    if(y_values[i] > y_values[highest_index] || i == highest_index){
+      colors[highest_index] = "#777777";
+      highest_index = i;
+      colors[highest_index] = "rgba(125, 239, 132, 1)";
+    }else{
+      colors[i] = "#777777";
+    }
+  }
+
+  if(all_same){
+    for(var i = 0; i < colors.length; i++){
+      colors[i] = "#777777";
+    }
+  }
+  traces.push([x_values, y_values,colors]);
+  console.log(traces);
+
+  document.getElementById("tbl").remove();
+  if(!all_same){
+    info_str = "<p>Based on the preferences provided, "
+    switch(x_values[highest_index]){
+      case "Netflix":
+        info_str += "<a href=https://netflix.com>Netflix</a>";
+        break;
+      case "Amazon":
+        info_str += "<a href=https://www.amazon.com/gp/video/getstarted/ref=atv_lnk_web_prime>Amazon Prime Video</a>";
+        break;
+      case "Hulu":
+        info_str += "<a href=https://hulu.com>Hulu</a>";
+        break;
+      case "Hbo":
+        info_str += "<a href=https://hbomax.com>HBO Max</a>";
+        break;
+      case "Disney":
+        info_str += "<a href=https://disneyplus.com>Disney+</a>";
+        break;
+      default:
+        break;
+    }
+    info_str += " seems like the best option for you.</p>";
+
+    document.getElementById("info").innerHTML = info_str;
+  }
+
+  data = [{
+    x: traces[0][0],
+    y: traces[0][1],
+    marker: { color: traces[0][2]},
+    type: "bar",
+    orientation: "v"  }];
+  layout = {
+    autosize: false,
+    width: 700,
+    height: 350,
+    title: "<b>Streaming Service Leaderboard for Genres</b>",
+    showlegend: false,
+    yaxis: {title:"Service Score", showticklabels: true},
+    xaxis: {showticklabels: true},
+    plot_bgcolor: "rgba(0,0,0,0)",
+    paper_bgcolor: "rgba(0,0,0,0)",
+    font: {color: "#dddddd"}};
+
+  Plotly.newPlot("plot1", data, layout, {staticPlot: true});
+
+  data = [{
+    x: traces[1][0],
+    y: traces[1][1],
+    marker: { color: traces[1][2]},
+    type: "bar",
+    orientation: "v"  }];
+  layout = {
+    autosize: false,
+    width: 700,
+    height: 350,
+    title: "<b>Streaming Service Leaderboard for Ratings</b>",
+    showlegend: false,
+    yaxis: {title:"Service Score", showticklabels: true},
+    xaxis: {showticklabels: true},
+    plot_bgcolor: "rgba(0,0,0,0)",
+    paper_bgcolor: "rgba(0,0,0,0)",
+    font: {color: "#dddddd"}};
+
+  Plotly.newPlot("plot2", data, layout, {staticPlot: true});
+
+  data = [{
+    x: traces[2][0],
+    y: traces[2][1],
+    marker: { color: traces[2][2]},
+    type: "bar",
+    orientation: "v"  }];
+  layout = {
+    autosize: false,
+    width: 700,
+    height: 350,
+    title: "<b>Streaming Service Leaderboard for Decades</b>",
+    showlegend: false,
+    yaxis: {title:"Service Score", showticklabels: true},
+    xaxis: {showticklabels: true},
+    plot_bgcolor: "rgba(0,0,0,0)",
+    paper_bgcolor: "rgba(0,0,0,0)",
+    font: {color: "#dddddd"}};
+
+  Plotly.newPlot("plot3", data, layout, {staticPlot: true});
+
+  data = [{
+    x: traces[3][0],
+    y: traces[3][1],
+    marker: { color: traces[3][2]},
+    type: "bar",
+    orientation: "v"  }];
+  layout = {
+    autosize: false,
+    width: 700,
+    height: 350,
+    title: "<b>Overall Streaming Service Leaderboard</b>",
+    showlegend: false,
+    yaxis: {title:"Sum of Weighted Scores For Each Feature", showticklabels: true},
+    xaxis: {showticklabels: true},
+    plot_bgcolor: "rgba(0,0,0,0)",
+    paper_bgcolor: "rgba(0,0,0,0)",
+    font: {color: "#dddddd"}};
+
+  Plotly.newPlot("plot4", data, layout, {staticPlot: true});
+}
+
+function final_screen(){
+  clear_inputs();
+  document.getElementById("td_sect").remove();
+  generate_final_plots();
 }
 
 document.getElementById("back").addEventListener('click', () =>{
@@ -486,5 +680,9 @@ document.getElementById("next").addEventListener('click', () =>{
     add_inputs(order[2]);
   }else if(document.getElementById("sect_head").innerHTML == order[2].toUpperCase() + "S"){
     add_weight_inputs();
+  }else{
+    final_screen();
+    document.getElementById("back").style.visibility = 'hidden';
+    document.getElementById("next").style.visibility = 'hidden';
   }
 });

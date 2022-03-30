@@ -36,6 +36,28 @@
         color:#dddddd;
         border-radius: 5px;
       }
+      a:link {
+        color: rgba(125, 239, 132, 1);
+        background-color: transparent;
+        text-decoration: none;
+      }
+      a:visited {
+        color: rgba(125, 239, 132, 1);
+        background-color: transparent;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: rgba(125, 239, 132, 1);
+        background-color: transparent;
+        text-decoration: underline;
+      }
+
+      a:active {
+        color: rgba(125, 239, 132, 1);
+        background-color: transparent;
+        text-decoration: underline;
+      }
     </style>
   </head>
 
@@ -43,10 +65,11 @@
 
   <body>
     <center>
-      <h1>Streaming Service Recommendations - Work in Progress</h1>
+      <h1>Streaming Service Recommendations</h1>
 
       <h2 id="sect_head"></h2>
       <div id="info">
+        <p id="info_p"></p>
         <p>
           This is my Data Science Capstone Project.
           <br>
@@ -54,8 +77,8 @@
           <br>
           The project asks questions about movie preferences and then rates streaming services based on how they accommodate those preferences.
           <br>
-          <h2 style="margin:0px;">Metric and Evaluation</h2>
         </p>
+        <h2 style="margin:0px;">Metric and Evaluation</h2>
         <p>
           <br>
           Streaming services are rated by maximizing the following metric:
@@ -85,9 +108,9 @@
           It will do this by finding the service with the highest score.
         </p>
       </div>
-      <table>
+      <table id="tbl">
         <tr>
-          <td style="width:20vw;">
+          <td style="width:20vw;" id="td_sect">
             <p id="sect_desc"></p>
             <div id="inputs">
 
@@ -95,6 +118,24 @@
           </td>
           <td>
             <div id="myPlot" style="width:100%;height:100%;"></div>
+          </td>
+        </tr>
+      </table>
+      <table id="final_tbl">
+        <tr>
+          <td>
+            <div id="plot1" style="width:100%;height:100%;"></div>
+          </td>
+          <td>
+            <div id="plot2" style="width:100%;height:100%;"></div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div id="plot3" style="width:100%;height:100%;"></div>
+          </td>
+          <td>
+            <div id="plot4" style="width:100%;height:100%;"></div>
           </td>
         </tr>
       </table>
