@@ -545,7 +545,7 @@ function generate_final_plots(){
 
   document.getElementById("tbl").remove();
   if(!all_same){
-    info_str = "<p>Based on the preferences provided, "
+    info_str = "<p>While all of these streaming services are very good options, <br><b>"
     switch(x_values[highest_index]){
       case "Netflix":
         info_str += "<a href=https://netflix.com>Netflix</a>";
@@ -565,7 +565,7 @@ function generate_final_plots(){
       default:
         break;
     }
-    info_str += " seems like the best option for you.</p>";
+    info_str += "</b><br>seems like the best option for you based on the preferences provided.</p>";
 
     document.getElementById("info").innerHTML = info_str;
   }
@@ -579,7 +579,7 @@ function generate_final_plots(){
   layout = {
     autosize: false,
     width: 700,
-    height: 350,
+    height: 300,
     title: "<b>Streaming Service Leaderboard for Genres</b>",
     showlegend: false,
     yaxis: {title:"Service Score", showticklabels: true},
@@ -599,7 +599,7 @@ function generate_final_plots(){
   layout = {
     autosize: false,
     width: 700,
-    height: 350,
+    height: 300,
     title: "<b>Streaming Service Leaderboard for Ratings</b>",
     showlegend: false,
     yaxis: {title:"Service Score", showticklabels: true},
@@ -619,7 +619,7 @@ function generate_final_plots(){
   layout = {
     autosize: false,
     width: 700,
-    height: 350,
+    height: 300,
     title: "<b>Streaming Service Leaderboard for Decades</b>",
     showlegend: false,
     yaxis: {title:"Service Score", showticklabels: true},
@@ -639,7 +639,7 @@ function generate_final_plots(){
   layout = {
     autosize: false,
     width: 700,
-    height: 350,
+    height: 300,
     title: "<b>Overall Streaming Service Leaderboard</b>",
     showlegend: false,
     yaxis: {title:"Sum of Weighted Scores For Each Feature", showticklabels: true},
@@ -671,7 +671,7 @@ document.getElementById("back").addEventListener('click', () =>{
   }
 });
 
-document.getElementById("next").addEventListener('click', () =>{
+document.getElementById("next").addEventListener('click', () => {
   if(document.getElementById("sect_head").innerHTML == ""){
     add_inputs(order[0]);
   }else if(document.getElementById("sect_head").innerHTML == order[0].toUpperCase() + "S"){
@@ -680,9 +680,11 @@ document.getElementById("next").addEventListener('click', () =>{
     add_inputs(order[2]);
   }else if(document.getElementById("sect_head").innerHTML == order[2].toUpperCase() + "S"){
     add_weight_inputs();
+  }else if(document.getElementById("next").value == "Restart"){
+    location.href = "capstone.html";
   }else{
     final_screen();
-    document.getElementById("back").style.visibility = 'hidden';
-    document.getElementById("next").style.visibility = 'hidden';
+    document.getElementById("back").remove();
+    document.getElementById("next").remove();
   }
 });
