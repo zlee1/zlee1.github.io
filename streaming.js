@@ -7,6 +7,7 @@ order = ["genre", "rating", "decade"];
 scores = {};
 sets = {};
 weights = {};
+
 for(var i = 0; i < order.length; i++){
   weights[order[i]] = 1;
 }
@@ -118,7 +119,7 @@ function add_inputs(key){
   var colors = [];
 
   for(var i = 0; i < x_values.length; i++){
-    colors.push("#777777");
+    colors.push("#adadad");
     y_values.push(0.001);
     x_values[i] = x_values[i].charAt(0).toUpperCase() + x_values[i].slice(1);
   }
@@ -202,7 +203,7 @@ function add_weight_inputs(){
   var colors = [];
 
   for(var i = 0; i < x_values.length; i++){
-    colors.push("#777777");
+    colors.push("#adadad");
     x_values[i] = x_values[i].charAt(0).toUpperCase() + x_values[i].slice(1);
   }
 
@@ -328,22 +329,22 @@ function update_final_score_plot(){
   for(var i = 0; i < x_values.length; i++){
 
     traces.push(0);
-    colors.push("#777777");
+    colors.push("#adadad");
     if(y_values[highest_index] != y_values[i]){
       all_same = false;
     }
     if(y_values[i] > y_values[highest_index] || i == highest_index){
-      colors[highest_index] = "#777777";
+      colors[highest_index] = "#adadad";
       highest_index = i;
       colors[highest_index] = "rgba(125, 239, 132, 1)";
     }else{
-      colors[i] = "#777777";
+      colors[i] = "#adadad";
     }
   }
 
   if(all_same){
     for(var i = 0; i < colors.length; i++){
-      colors[i] = "#777777";
+      colors[i] = "#adadad";
     }
   }
 
@@ -423,24 +424,24 @@ function update_plot(set, key, plot_name="myPlot"){
   for(var i = 0; i < x_values.length; i++){
 
     traces.push(0);
-    colors.push("#777777");
+    colors.push("#adadad");
     y_values.push(rate_services(set, key, set_scores)[x_values[i]]);
     if(y_values[highest_index] != y_values[i]){
       all_same = false;
     }
     if(y_values[i] > y_values[highest_index] || i == highest_index){
-      colors[highest_index] = "#777777";
+      colors[highest_index] = "#adadad";
       highest_index = i;
       colors[highest_index] = "rgba(125, 239, 132, 1)";
     }else{
-      colors[i] = "#777777";
+      colors[i] = "#adadad";
     }
     x_values[i] = x_values[i].charAt(0).toUpperCase() + x_values[i].slice(1);
   }
 
   if(all_same){
     for(var i = 0; i < colors.length; i++){
-      colors[i] = "#777777";
+      colors[i] = "#adadad";
     }
   }
 
@@ -480,24 +481,24 @@ function generate_final_plots(){
     all_same = true;
 
     for(var j = 0; j < x_values.length; j++){
-      colors.push("#777777");
+      colors.push("#adadad");
       y_values.push(rate_services(set, order[i], set_scores)[x_values[j]]);
       if(y_values[highest_index] != y_values[j]){
         all_same = false;
       }
       if(y_values[j] > y_values[highest_index] || j == highest_index){
-        colors[highest_index] = "#777777";
+        colors[highest_index] = "#adadad";
         highest_index = j;
         colors[highest_index] = "rgba(125, 239, 132, 1)";
       }else{
-        colors[j] = "#777777";
+        colors[j] = "#adadad";
       }
       x_values[j] = x_values[j].charAt(0).toUpperCase() + x_values[j].slice(1);
     }
 
     if(all_same){
       for(var k = 0; k < colors.length; k++){
-        colors[j] = "#777777";
+        colors[j] = "#adadad";
       }
     }
     traces.push([x_values,y_values,colors]);
@@ -522,22 +523,22 @@ function generate_final_plots(){
 
   for(var i = 0; i < x_values.length; i++){
 
-    colors.push("#777777");
+    colors.push("#adadad");
     if(y_values[highest_index] != y_values[i]){
       all_same = false;
     }
     if(y_values[i] > y_values[highest_index] || i == highest_index){
-      colors[highest_index] = "#777777";
+      colors[highest_index] = "#adadad";
       highest_index = i;
       colors[highest_index] = "rgba(125, 239, 132, 1)";
     }else{
-      colors[i] = "#777777";
+      colors[i] = "#adadad";
     }
   }
 
   if(all_same){
     for(var i = 0; i < colors.length; i++){
-      colors[i] = "#777777";
+      colors[i] = "#adadad";
     }
   }
   traces.push([x_values, y_values,colors]);
@@ -642,7 +643,7 @@ function generate_final_plots(){
     height: 300,
     title: "<b>Overall Streaming Service Leaderboard</b>",
     showlegend: false,
-    yaxis: {title:"Sum of Weighted Scores For Each Feature", showticklabels: true},
+    yaxis: {title:"Overall Service Score", showticklabels: true},
     xaxis: {showticklabels: true},
     plot_bgcolor: "rgba(0,0,0,0)",
     paper_bgcolor: "rgba(0,0,0,0)",
