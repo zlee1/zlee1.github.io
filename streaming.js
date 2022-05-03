@@ -149,7 +149,7 @@ function add_weight_inputs(){
   tbl = document.createElement("table");
   tbl.id = "input_tbl";
   document.getElementById("inputs").appendChild(tbl);
-  document.getElementById("sect_head").innerHTML = "WEIGHING FEATURES";
+  document.getElementById("sect_head").innerHTML = "WEIGHTING FEATURES";
   document.getElementById("sect_desc").innerHTML = "Please rate how important each of the following features are to you.";
 
   for(var i = 0; i < order.length; i++){
@@ -667,7 +667,7 @@ document.getElementById("back").addEventListener('click', () =>{
     add_inputs(order[0]);
   }else if(document.getElementById("sect_head").innerHTML == order[2].toUpperCase() + "S"){
     add_inputs(order[1])
-  }else if(document.getElementById("sect_head").innerHTML == "WEIGHING FEATURES"){
+  }else if(document.getElementById("sect_head").innerHTML == "WEIGHTING FEATURES"){
     add_inputs(order[2])
   }
 });
