@@ -1,23 +1,100 @@
 <!DOCTYPE html>
 <head>
   <title>Climate Protection</title>
+  <style>
+    h1{
+      text-align: center;
+    }
+    h2{
+      text-align: center;
+    }
+    p{
+      width: 1100px;
+      text-align: left;
+    }
+  </style>
 </head>
 
 <body>
   <center>
     <h1>A World View of Climate Change and Protection</h1>
+
+
     <p>
-      <h2>The Climate Change Protection Index</h2>
+      Climate change is one of the biggest issues currently affecting the world. People all around the planet are dying from extreme heat, drought, and natural disasters. These harsh conditions are just the beginning of the dangerous effects of climate change. This site is designed to showcase some of the contributing factors and protection actions from different countries.
+      <br><br>
+      Feel free to explore the maps. Hovering over countries will give you more information on their contributions. Be sure to use the dropdown menus to change the data being shown and follow along with the writeups for each section.
     </p>
-    <iframe src="src/climate_maps/ccpi.html" width=1000 height=550 style="border: none"></iframe>
+
+    <h2>Emissions</h2>
     <p>
-      <h2>Emissions</h2>
+      The majority of climate change is caused by emissions. The emissions of Carbon Dioxide and other Greenhouse Gases traps heat in the atmosphere and causes the greenhouse effect, which has resulted in an increase in temperatures worldwide.
+      <br><br>
+      <b>Share of Global CO<sub>2</sub> Emissions</b>: This shows what percentage of the global emissions are released by each country. More than 50% of Carbon Dioxide emissions comes from just 3 countries (China, USA, and India).
+      <br><br>
+      <b>CO<sub>2</sub> Emissions per Capita</b>: This shows how much Carbon Dioxide is emitted per person in each country (this does not mean that each individual is emitting the amount presented, as all of the country's emissions are included). High amounts of Carbon Dioxide emissions come from countries that are major exporters of fossil fuels such as Saudi Arabia, Canada, the United States, and Russia.
+      <br><br>
+      <b>Percent Growth of CO<sub>2</sub> Emissions</b>: This shows how much emission quantities have changed from 2019 to 2020 in each country. Most countries have been reducing their Carbon Dioxide emisisons, with many decreasing by more than 10% in just a year. Continuing this downwards trend is necessary for the halting of climate change.
+      <br><br>
+      <b>Primary Source of CO<sub>2</sub> Emissions</b>: This shows what source most of the Carbon Dioxide emissions come from in each country. The most common emissions sources are Coal and Oil. Without reducing the emissions from these industries, climate change will only worsen.
     </p>
+
+
     <iframe src="src/climate_maps/co2.html" width=1000 height=550 style="border: none"></iframe>
-    <iframe src="src/climate_maps/ghg.html" width=1000 height=550 style="border: none"></iframe>
+
     <p>
-      <h2>Energy</h2>
+      <b>Greenhouse Gas Emissions per Capita</b>: This shows the quantity of greenhouse gases emitted per person in each country. Results here are similar to the Carbon Dioxide ones, but show substantially more activity in Africa and South America.
+      <br><br>
+      The remaining maps here show emissions per capita for Methane, Nitrous Oxide, and Carbon Dioxide.
     </p>
+
+    <iframe src="src/climate_maps/ghg.html" width=1000 height=550 style="border: none"></iframe>
+
+    <h2>Energy</h2>
+    <p>
+      Renewable energy is one of the best ways to reduce the effects of climate change. By making a full switch to green energy, emissions can be completely halted, and the easing of climate change effects can begin. Similarly, high energy consumption in areas with low amounts of renewable energy results in higher emisisons and worsens climate change.
+      <br><br>
+      <b>Share of Energy Consumption from Renewable Sources</b>: This shows the percentage of a country's energy consumption that comes from renewable/green sources. Most countries have terrible performance in this area. Only 2 countries (Iceland and Norway) have more than 50% of their energy come from renewable sources. To stop climate change, every country needs to get as close to 100% renewable energy as possible. The goal should be "real zero" emissions, which means that a country can rely entirely on their renewable energy sources and have no greenhouse gas emissions.
+      <br><br>
+      <b>Energy Consumption per Capita</b>: This shows how much energy is consumed per person in each country. The United States, Canada, and Saudi Arabia are some of the highest energy users but have some of the lowest proportions of renewable energy. Norway and Iceland, on the other hand, have high energy consumption with high renewable energy proportions, so their usage does not contribute nearly as much to climate change.
+      <br><br>
+      The remaining maps here show the share of energy consumption from Nuclear Power, Hydropower, Solar Power, Wind Power, Biofuel, and Other Renewables.
+    </p>
+
+
     <iframe src="src/climate_maps/energy.html" width=1000 height=550 style="border: none"></iframe>
+
+    <h2>The Climate Change Performance Index</h2>
+    <p>
+      The Climate Change Performance Index is a ranking of how different countries perform in climate protection. The ranking takes Greenhouse Gas Emissions, Renewable Energy, Energy Use, and Climate Policy into consideration. The higher the score, the better a country is doing in its climate protection actions. More information on the index can be found at <a href="https://ccpi.org/">https://ccpi.org/</a>.
+      <br><br>
+      Unsurprisingly, most of the low performing countries in other sections are also low performing in the Climate Change Performance Index. Unfortunately, there are still no countries that have received a "very high" rating in the CCPI. More action needs to be taken, even by the countries that are performing the best out of all of them. Nations need to work together to reduce emissions, increase renewable energy usage, and take all other possible action to preserve the environment. Without immediate action, even more people will suffer, and the future will continue to get worse.
+    </p>
+
+
+    <iframe src="src/climate_maps/ccpi.html" width=1000 height=550 style="border: none"></iframe>
+
+    <h2>Sources</h2>
+    <p style="text-align:center">
+      Emissions Data via Our World In Data <a href="https://ourworldindata.org/">Organization Link</a> <a href="https://github.com/owid/co2-data">Github Link</a>
+      <br>
+      Energy Data via Our World In Data <a href="https://ourworldindata.org/">Organization Link</a> <a href="https://github.com/owid/energy-data">Github Link</a>
+      <br>
+      Climate Change Performance Index via <a href="ccpi.org">Organization Link</a>
+    </p>
+
+    <h2>Tools</h2>
+    <p style="text-align:center">
+      Python 3.10 <a href="https://www.python.org/">https://www.python.org/</a>
+      <br>
+      Plotly 5.9.0 <a href="https://plotly.com/">https://plotly.com/</a>
+      <br>
+      Pandas 1.4.3 <a href="https://pandas.pydata.org/">https://pandas.pydata.org/</a>
+      <br>
+      NumPy 1.22.3 <a href="https://numpy.org/">https://numpy.org/</a>
+      <br>
+      Jupyter Notebook <a href="https://jupyter.org/">https://jupyter.org/</a>
+      <br>
+      Atom <a href="https://atom.io/">https://atom.io/</a>
   </center>
 </body>
